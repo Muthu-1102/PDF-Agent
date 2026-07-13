@@ -24,6 +24,13 @@ class Settings:
     SIMILARITY_THRESHOLD: float = 0.35
     MIN_TRUSTED_CHUNKS: int = 2
 
+    # --- Evidence Agent judging mode ---
+    # "llm"  -> ask the LLM to judge relevance + sufficiency (default)
+    # "similarity" -> pure cosine-similarity threshold (old behavior, used
+    #                 as an automatic fallback if the LLM call/parse fails)
+    EVIDENCE_JUDGE_MODE: str = "llm"
+    EVIDENCE_CANDIDATE_FLOOR: float = 0.15  # loose pre-filter before LLM sees chunks
+
     # --- Chunking ---
     CHUNK_SIZE_WORDS: int = 500
     CHUNK_OVERLAP_WORDS: int = 80
