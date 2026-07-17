@@ -2,21 +2,27 @@ import { useState, useRef } from "react";
 import "./App.css";
 
 /**
- * Agentic RAG — "The Case File"
- *
- * The UI's one job: make the retrieve -> evidence-check -> retry -> report
- * loop from the LangGraph backend visible, not hide it behind a spinner.
- * Documents are treated as evidence, the Evidence Agent as a fact-checker,
- * and the trace rail below is driven by the real `retries` /
- * `evidence_status` values the API returns.
+ * Agentic RAG — sidebar / chat / evidence-panel layout, re-themed to match
+ * the provided reference UI (olive sidebar, cream chat area, mint evidence
+ * panel). The retrieve -> evidence-check -> retry -> report trace rail and
+ * evidence panel are still driven by the real API response.
  */
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const TRACE_STEPS = [
   { key: "retrieve", label: "Retrieve" },
-  { key: "evidence", label: "Weigh evidence" },
+  { key: "evidence", label: "Evidence" },
   { key: "report", label: "Report" },
+];
+
+const SUGGESTIONS = [
+  { title: "Summarize the case file", sub: "across everything I've uploaded so far" },
+  { title: "Find key facts", sub: "about the retrieval pipeline design" },
+  { title: "Compare two sections", sub: "from different uploaded documents" },
+  { title: "List open action items", sub: "mentioned anywhere in the record" },
+  { title: "Explain a term", sub: "as it's defined in the case file" },
+  { title: "Check a claim", sub: "against the evidence I've uploaded" },
 ];
 
 export default function App() {
@@ -25,12 +31,14 @@ export default function App() {
   const [uploadStatus, setUploadStatus] = useState(null); // { text, error }
   const [caseFiles, setCaseFiles] = useState([]);
   const fileInputRef = useRef(null);
+  const questionInputRef = useRef(null);
 
-  // --- Interrogation (query) state ---
+  // --- Conversation state ---
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [stage, setStage] = useState(null); // 'retrieve' | 'evidence' | 'retry' | 'report'
   const [liveRetries, setLiveRetries] = useState(0);
+  const [askedQuestion, setAskedQuestion] = useState("");
   const [result, setResult] = useState(null);
 
   async function submitFile(file) {
@@ -49,14 +57,10 @@ export default function App() {
       }
 
       setCaseFiles((prev) => [
-        {
-          name: data.document_name,
-          chunks: data.chunks_indexed,
-          id: data.document_id,
-        },
+        { name: data.document_name, chunks: data.chunks_indexed, id: data.document_id },
         ...prev,
       ]);
-      setUploadStatus({ text: `Indexed — ${data.chunks_indexed} chunks added to the record.`, error: false });
+      setUploadStatus({ text: `Indexed — ${data.chunks_indexed} chunks.`, error: false });
     } catch {
       setUploadStatus({ text: "Could not reach the server.", error: true });
     }
@@ -68,8 +72,24 @@ export default function App() {
     submitFile(e.dataTransfer.files?.[0]);
   }
 
+  function handleNewChat() {
+    setQuestion("");
+    setAskedQuestion("");
+    setResult(null);
+    setStage(null);
+    setLiveRetries(0);
+  }
+
+  function applySuggestion(text) {
+    setQuestion(text);
+    questionInputRef.current?.focus();
+  }
+
   async function handleAsk() {
     if (!question.trim() || loading) return;
+    const q = question.trim();
+    setAskedQuestion(q);
+    setQuestion("");
     setLoading(true);
     setResult(null);
     setLiveRetries(0);
@@ -78,16 +98,14 @@ export default function App() {
     const fetchPromise = fetch("/query/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({ question: q }),
     })
       .then((r) => r.json())
       .catch(() => null);
 
-    // Choreograph the trace rail so the retrieve -> evidence loop is
-    // actually visible, then reconcile with the real response.
-    await sleep(500);
+    await sleep(450);
     setStage("evidence");
-    await sleep(550);
+    await sleep(500);
 
     const data = await fetchPromise;
 
@@ -95,9 +113,9 @@ export default function App() {
       for (let i = 0; i < data.retries; i++) {
         setStage("retry");
         setLiveRetries(i + 1);
-        await sleep(420);
+        await sleep(380);
         setStage("evidence");
-        await sleep(420);
+        await sleep(380);
       }
     }
 
@@ -118,7 +136,11 @@ export default function App() {
     const order = ["retrieve", "evidence", "report"];
     if (!stage) return "pending";
     if (stage === "retry") {
-      return stepKey === "evidence" ? "retry" : order.indexOf(stepKey) < order.indexOf("evidence") ? "done" : "pending";
+      return stepKey === "evidence"
+        ? "retry"
+        : order.indexOf(stepKey) < order.indexOf("evidence")
+        ? "done"
+        : "pending";
     }
     const stageIndex = order.indexOf(stage);
     const stepIndex = order.indexOf(stepKey);
@@ -128,163 +150,181 @@ export default function App() {
   }
 
   const isInsufficient = result?.evidence_status === "insufficient";
+  const avgConfidence = result?.confidence ?? null;
 
   return (
-    <div className="app-shell">
-      <div className="container">
-        {/* Top bar */}
-        <div className="topbar">
-          <div className="topbar-mark">
-            <span className="glyph">§</span>
-            <span className="name">Agentic RAG · Case File</span>
+    <div className="aiva-shell">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <p className="brand">
+          RAG <span>AGENT</span>
+        </p>
+
+        <button className="new-chat-btn" onClick={handleNewChat}>
+          <span>+</span> New Chat
+        </button>
+
+        <div className="sidebar-section">
+          <p className="sidebar-label">Case File</p>
+          <div
+            className={`sidebar-dropzone${isDragging ? " is-dragging" : ""}`}
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+          >
+            <p>Drop a document, or</p>
+            <span>choose a file to index</span>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.docx,.txt"
+              onChange={(e) => submitFile(e.target.files?.[0])}
+            />
           </div>
-          <div className="topbar-stack">
-            <span className="stack-chip">LangGraph</span>
-            <span className="stack-chip">ChromaDB</span>
-            <span className="stack-chip">Groq</span>
-          </div>
+
+          {uploadStatus && (
+            <p className={`sidebar-status${uploadStatus.error ? " is-error" : ""}`}>{uploadStatus.text}</p>
+          )}
+
+          {caseFiles.length > 0 && (
+            <ul className="case-list">
+              {caseFiles.map((f) => (
+                <li className="case-item" key={f.id}>
+                  <div className="case-item-name">{f.name}</div>
+                  <div className="case-item-meta">{f.chunks} chunks indexed</div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        {/* Hero */}
-        <section className="hero">
-          <p className="hero-eyebrow">Evidence-first retrieval</p>
-          <h1 className="hero-headline">
-            It won't answer <em>until the evidence holds up.</em>
-          </h1>
-          <p className="hero-sub">
-            Upload documents to build the case file, then put a question to the record. A LangGraph-orchestrated
-            Evidence Agent checks what's retrieved before a Report Agent is ever allowed to answer — and retries
-            retrieval on its own when the evidence comes up short.
-          </p>
-        </section>
+        <div className="sidebar-footer">
+          <span className="sidebar-chip">LangGraph</span>
+          <span className="sidebar-chip">ChromaDB</span>
+          <span className="sidebar-chip">Groq</span>
+        </div>
+      </aside>
 
-        {/* Workspace */}
-        <div className="workspace">
-          {/* Case file panel */}
-          <section className="panel">
-            <div className="panel-header">
-              <h2 className="panel-title">The Case File</h2>
-              <span className="panel-count">{caseFiles.length} indexed</span>
-            </div>
-            <p className="panel-sub">PDF, DOCX, or TXT. Every file you add becomes searchable evidence.</p>
+      {/* Main column */}
+      <div className="main-col">
+        <header className="topbar">
+          <div className="topbar-stats">
+            <span className="stat-pill">
+              Docs <b>{caseFiles.length}</b>
+            </span>
+            <span className="stat-pill">
+              Confidence <b>{avgConfidence ?? "—"}</b>
+            </span>
+            <span className="stat-pill">
+              Retries <b>{result?.retries ?? 0}</b>
+            </span>
+          </div>
+          <div className="topbar-status">
+            <span className="status-dot" />
+            Backend online
+          </div>
+        </header>
 
-            <div
-              className={`dropzone${isDragging ? " is-dragging" : ""}`}
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setIsDragging(true);
-              }}
-              onDragLeave={() => setIsDragging(false)}
-              onDrop={handleDrop}
-            >
-              <p className="dropzone-label">Drop a document here, or</p>
-              <span className="dropzone-file">choose a file to add to the record</span>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf,.docx,.txt"
-                onChange={(e) => submitFile(e.target.files?.[0])}
-              />
-            </div>
+        <main className="chat-area">
+          {!askedQuestion ? (
+            <div className="chat-hero">
+              <h1 className="chat-watermark">
+                RAG
+                <small>Evidence-verified answers</small>
+              </h1>
 
-            {uploadStatus && (
-              <p className={`upload-status${uploadStatus.error ? " is-error" : ""}`}>{uploadStatus.text}</p>
-            )}
-
-            {caseFiles.length > 0 ? (
-              <ul className="case-list">
-                {caseFiles.map((f) => (
-                  <li className="case-item" key={f.id}>
-                    <span className="case-item-name">{f.name}</span>
-                    <span className="case-item-meta">{f.chunks} chunks</span>
-                  </li>
+              <div className="suggestion-grid">
+                {SUGGESTIONS.map((s) => (
+                  <div className="suggestion-card" key={s.title} onClick={() => applySuggestion(s.title)}>
+                    <p className="suggestion-title">{s.title}</p>
+                    <p className="suggestion-sub">{s.sub}</p>
+                  </div>
                 ))}
-              </ul>
-            ) : (
-              <p className="empty-note">The case file is empty. Add a document to begin.</p>
-            )}
-          </section>
-
-          {/* Interrogation panel */}
-          <section className="panel">
-            <div className="panel-header">
-              <h2 className="panel-title">Put a Question to the Record</h2>
+              </div>
             </div>
-            <p className="panel-sub">Answered strictly from documents in the case file above.</p>
+          ) : (
+            <div className="thread">
+              <div className="question-bubble">{askedQuestion}</div>
 
-            <div className="question-row">
-              <input
-                className="question-input"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-                placeholder="What does the record say about…"
-              />
-              <button className="btn btn-primary" style={{ marginTop: 0 }} onClick={handleAsk} disabled={loading}>
-                {loading ? "Working" : "Ask"}
-              </button>
-            </div>
-
-            {/* Trace rail — the live reasoning trace */}
-            <div className="trace-rail">
-              {TRACE_STEPS.map((step) => {
-                const status = nodeStatus(step.key);
-                return (
-                  <div className={`trace-node is-${status}`} key={step.key}>
-                    <div className="trace-dot">
-                      <span className="trace-line" />
-                      {status === "done" ? "✓" : ""}
+              <div className="trace-rail">
+                {TRACE_STEPS.map((step) => {
+                  const status = nodeStatus(step.key);
+                  return (
+                    <div className={`trace-node is-${status}`} key={step.key}>
+                      <div className="trace-dot">
+                        <span className="trace-line" />
+                        {status === "done" ? "✓" : ""}
+                      </div>
+                      <span className="trace-label">{step.label}</span>
+                      {step.key === "evidence" && liveRetries > 0 && (
+                        <span className="trace-retry-badge">×{liveRetries}</span>
+                      )}
                     </div>
-                    <span className="trace-label">{step.label}</span>
-                    {step.key === "evidence" && liveRetries > 0 && (
-                      <span className="trace-retry-badge">retried ×{liveRetries}</span>
+                  );
+                })}
+              </div>
+
+              {result && (
+                <div className="report-card">
+                  <div className="report-head">
+                    <h3 className="report-title">Findings</h3>
+                    {isInsufficient ? (
+                      <span className="stamp is-low">Insufficient evidence</span>
+                    ) : (
+                      <span className="stamp">Confidence {result.confidence}</span>
                     )}
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Findings */}
-            {result ? (
-              <div className="report-card">
-                <div className="report-head">
-                  <h3 className="report-title">Findings</h3>
-                  {isInsufficient ? (
-                    <span className="stamp is-low">Insufficient evidence</span>
-                  ) : (
-                    <span className="stamp">Confidence {result.confidence}</span>
-                  )}
+                  <p className="report-answer">{result.answer}</p>
                 </div>
-                <p className="report-answer">{result.answer}</p>
+              )}
+            </div>
+          )}
+        </main>
 
-                {result.sources?.length > 0 && (
-                  <>
-                    <p className="report-meta">Supporting evidence</p>
-                    <div className="evidence-list">
-                      {result.sources.map((s, i) => (
-                        <div className="evidence-tag" key={i}>
-                          <div className="evidence-tag-doc">{s.document}</div>
-                          <div className="evidence-tag-loc">
-                            p.{s.page_number ?? "—"} · chunk {s.chunk_id}
-                          </div>
-                          <div className="evidence-bar-track">
-                            <div className="evidence-bar-fill" style={{ width: `${Math.round(s.score * 100)}%` }} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              !loading && <p className="report-empty">No question on the record yet.</p>
-            )}
-          </section>
-        </div>
-
-        <div className="footer">Agentic RAG System · LangGraph orchestration, evidence-verified answers</div>
+        <footer className="composer">
+          <div className="composer-row">
+            <input
+              ref={questionInputRef}
+              className="composer-input"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAsk()}
+              placeholder="Send a message…"
+            />
+            <button className="send-btn" onClick={handleAsk} disabled={loading}>
+              ➤
+            </button>
+          </div>
+        </footer>
       </div>
+
+      {/* Evidence panel */}
+      <aside className="evidence-panel">
+        <p className="evidence-panel-title">Evidence</p>
+        {result?.sources?.length > 0 ? (
+          <div className="evidence-list">
+            {result.sources.map((s, i) => (
+              <div className="evidence-tag" key={i}>
+                <div className="evidence-tag-doc">{s.document}</div>
+                <div className="evidence-tag-loc">
+                  p.{s.page_number ?? "—"} · chunk {s.chunk_id}
+                </div>
+                <div className="evidence-bar-track">
+                  <div className="evidence-bar-fill" style={{ width: `${Math.round(s.score * 100)}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="evidence-empty">
+            Supporting <b>evidence</b> from your <b>case file</b> will appear here
+          </p>
+        )}
+      </aside>
     </div>
   );
 }
