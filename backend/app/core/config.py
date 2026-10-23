@@ -22,7 +22,7 @@ class Settings:
     TOP_K_STEP: int = 4
     MAX_RETRIES: int = 3
     SIMILARITY_THRESHOLD: float = 0.35
-    MIN_TRUSTED_CHUNKS: int = 2
+    MIN_TRUSTED_CHUNKS: int = 1
 
     # --- Evidence Agent judging mode ---
     # "llm"  -> ask the LLM to judge relevance + sufficiency (default)
@@ -32,8 +32,9 @@ class Settings:
     EVIDENCE_CANDIDATE_FLOOR: float = 0.15  # loose pre-filter before LLM sees chunks
 
     # --- Chunking ---
-    CHUNK_SIZE_WORDS: int = 500
-    CHUNK_OVERLAP_WORDS: int = 80
+    # Sized to guarantee chunks strictly respect embedding model 256 token limit (H1 fix)
+    CHUNK_SIZE_WORDS: int = 160
+    CHUNK_OVERLAP_WORDS: int = 30
 
 
 settings = Settings()

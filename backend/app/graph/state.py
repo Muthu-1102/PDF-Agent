@@ -30,6 +30,8 @@ class RAGState(TypedDict):
     # Evidence Agent output
     trusted_chunks: List[TrustedChunk]
     evidence_status: str  # "pending" | "sufficient" | "insufficient"
+    evidence_mode: Optional[str]  # "llm" | "similarity_fallback" (H3 fix)
+    judge_error: Optional[str]
 
     # Report Agent output
     generated_answer: Optional[str]
@@ -47,6 +49,8 @@ def build_initial_state(question: str, top_k: int) -> RAGState:
         "retry_count": 0,
         "trusted_chunks": [],
         "evidence_status": "pending",
+        "evidence_mode": None,
+        "judge_error": None,
         "generated_answer": None,
         "sources": [],
         "confidence": None,

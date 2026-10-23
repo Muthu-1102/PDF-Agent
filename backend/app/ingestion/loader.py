@@ -19,15 +19,26 @@ def load_pdf(file_path: str) -> List[Tuple[int, str]]:
 
 
 def load_docx(file_path: str) -> List[Tuple[int, str]]:
-    """DOCX has no native page concept -> treat whole doc as page 1."""
+    """DOCX has no native page concept -> treat whole doc as page 1.
+    H10 Fix: Extract both paragraphs and table rows so structured data is not lost."""
     document = docx.Document(file_path)
-    text = "\n".join(p.text for p in document.paragraphs)
-    return [(1, text)]
+    lines = [p.text for p in document.paragraphs if p.text.strip()]
+    for table in document.tables:
+        for row in table.rows:
+            row_cells = [c.text.strip() for c in row.cells if c.text.strip()]
+            if row_cells:
+                lines.append(" | ".join(row_cells))
+    return [(1, "\n".join(lines))]
 
 
 def load_txt(file_path: str) -> List[Tuple[int, str]]:
-    with open(file_path, "r", encoding="utf-8") as f:
-        return [(1, f.read())]
+    """H10 Fix: Handle non-UTF8 encodings cleanly without raising 500."""
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return [(1, f.read())]
+    except UnicodeDecodeError:
+        with open(file_path, "r", encoding="latin-1") as f:
+            return [(1, f.read())]
 
 
 def load_document(file_path: str, file_type: str) -> List[Tuple[int, str]]:
