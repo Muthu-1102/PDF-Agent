@@ -35,6 +35,11 @@ async def upload_document(file: UploadFile = File(...)):
         timestamp = datetime.utcnow().isoformat()
         collection = get_collection()
 
+        # H9 Fix: Deduplicate existing chunks for this document to prevent index bloat
+        existing = collection.get(where={"document_name": file.filename})
+        if existing and existing.get("ids"):
+            collection.delete(ids=existing["ids"])
+
         ids, docs, metadatas = [], [], []
         for idx, (page_number, chunk_text) in enumerate(chunks):
             ids.append(f"{doc_id}_{idx}")

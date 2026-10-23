@@ -1,0 +1,820 @@
+"""
+Question suite definition for Agentic RAG evaluation (70 total questions).
+Seeded, deterministic ground truth with split into DEV (20%) and HELD_OUT (80%).
+"""
+
+RAW_QUESTIONS = [
+    # -------------------------------------------------------------
+    # Category 1: Single-chunk fact (10 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q01",
+        "category": "single_chunk_fact",
+        "question": "What is the battery energy density of the Titan-X autonomous unmanned vehicle?",
+        "is_answerable": True,
+        "required_facts": ["420 Wh/kg", "Lithium-Sulfur"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "energy density of 420 Wh/kg",
+        "split": "DEV"
+    },
+    {
+        "id": "Q02",
+        "category": "single_chunk_fact",
+        "question": "What is the operational ceiling of the Titan-X drone?",
+        "is_answerable": True,
+        "required_facts": ["4,500 meters", "ground level"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "restricted to 4,500 meters",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q03",
+        "category": "single_chunk_fact",
+        "question": "What emergency sequence engages if telemetry with the Titan-X is lost for over 45 seconds?",
+        "is_answerable": True,
+        "required_facts": ["RTB-ALPHA"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "RTB-ALPHA is automatically engaged",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q04",
+        "category": "single_chunk_fact",
+        "question": "Under VRCC Policy Version 2.4, what is the allocated allowance for breakfast?",
+        "is_answerable": True,
+        "required_facts": ["$22"],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "Breakfast is allocated $22",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q05",
+        "category": "single_chunk_fact",
+        "question": "Who must approve travel expenses exceeding $4,000 under VRCC Policy 2.4?",
+        "is_answerable": True,
+        "required_facts": ["Marcus Vance"],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "Chief Financial Officer Marcus Vance",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q06",
+        "category": "single_chunk_fact",
+        "question": "What is the base operating temperature maintained by the Aurora cryostat dilution refrigerator?",
+        "is_answerable": True,
+        "required_facts": ["12.4 millikelvin"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "12.4 millikelvin",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q07",
+        "category": "single_chunk_fact",
+        "question": "What is the physical qubit register limit in the Aurora Quantum Compiler deployment?",
+        "is_answerable": True,
+        "required_facts": ["128", "topological qubits"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "128 topological qubits",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q08",
+        "category": "single_chunk_fact",
+        "question": "How many autonomous electric transport vans are operating at the Northport Logistics Hub?",
+        "is_answerable": True,
+        "required_facts": ["45"],
+        "forbidden_facts": [],
+        "gold_document": "orion_fleet_logistics.docx",
+        "gold_evidence_string": "fleet of 45 autonomous electric transport vans",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q09",
+        "category": "single_chunk_fact",
+        "question": "What is the nominal bus voltage of the Titan-X battery system?",
+        "is_answerable": True,
+        "required_facts": ["74.0 Volts", "85 Amp-hours"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "74.0 Volts and delivers 85 Amp-hours",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q10",
+        "category": "single_chunk_fact",
+        "question": "What email address is designated for Aurora compiler errors and syntax exceptions?",
+        "is_answerable": True,
+        "required_facts": ["sys-quantum@vaelen.internal"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "sys-quantum@vaelen.internal",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 2: Multi-chunk within one document (8 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q11",
+        "category": "multi_chunk_single_doc",
+        "question": "What are the maximum payload capacity and the continuous flight endurance of the Titan-X?",
+        "is_answerable": True,
+        "required_facts": ["18.4 kilograms", "142 minutes"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "payload capacity of the Titan-X is exactly 18.4 kilograms",
+        "split": "DEV"
+    },
+    {
+        "id": "Q12",
+        "category": "multi_chunk_single_doc",
+        "question": "Under VRCC Policy 2.4, what is the daily meal per diem and what is the hotel cap for Tier-1 domestic cities?",
+        "is_answerable": True,
+        "required_facts": ["$92", "$245"],
+        "forbidden_facts": ["$65", "$180"],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "daily meal per diem allowance is raised to exactly $92",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q13",
+        "category": "multi_chunk_single_doc",
+        "question": "What optimization algorithm does Aurora use, and by what percentage does it reduce CNOT gates?",
+        "is_answerable": True,
+        "required_facts": ["Helios-9", "38.6 percent"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "Helios-9 gate synthesis algorithm",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q14",
+        "category": "multi_chunk_single_doc",
+        "question": "What is the maximum takeoff weight (MTOW) of the Titan-X and what datalink protocol does it use?",
+        "is_answerable": True,
+        "required_facts": ["46.8 kilograms", "Kestrel-Link 900 MHz"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "takeoff weight (MTOW) is 46.8 kilograms",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q15",
+        "category": "multi_chunk_single_doc",
+        "question": "What is the charging stipend per mile for VRCC electric vehicles, and what form is needed for rental car upgrades?",
+        "is_answerable": True,
+        "required_facts": ["$0.34", "MED-7"],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "charging stipend of $0.34 per mile",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q16",
+        "category": "multi_chunk_single_doc",
+        "question": "What is the decoherence window of Aurora quantum processing nodes and what qubit architecture do they target?",
+        "is_answerable": True,
+        "required_facts": ["840 microseconds", "Q-Alpha 7"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "decoherence window of the processing nodes is precisely 840 microseconds",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q17",
+        "category": "multi_chunk_single_doc",
+        "question": "In the Zephyros manual, what are the carrier frequency and coolant flow rate specified for Chapter 12?",
+        "is_answerable": True,
+        "required_facts": ["125.40 MHz", "28.0 liters per minute"],
+        "forbidden_facts": [],
+        "gold_document": "zephyros_avionics_handbook.pdf",
+        "gold_evidence_string": "carrier frequency for subsystem 12 is calibrated to 125.40 MHz",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q18",
+        "category": "multi_chunk_single_doc",
+        "question": "In the Zephyros manual, what alarm code and inspection interval apply to Chapter 25?",
+        "is_answerable": True,
+        "required_facts": ["CODE-1425-WARN", "250 operating cycles"],
+        "forbidden_facts": [],
+        "gold_document": "zephyros_avionics_handbook.pdf",
+        "gold_evidence_string": "alarm CODE-1425-WARN",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 3: Multi-document cross-synthesis (6 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q19",
+        "category": "multi_document",
+        "question": "Compare the flight endurance of the Titan-X drone with the average delivery turnaround time of Orion logistics.",
+        "is_answerable": True,
+        "required_facts": ["142 minutes", "4.2 hours"],
+        "forbidden_facts": [],
+        "gold_document": ["aethelgard_titan_drone_specs.pdf", "orion_fleet_logistics.docx"],
+        "gold_evidence_string": "flight endurance is 142 minutes",
+        "split": "DEV"
+    },
+    {
+        "id": "Q20",
+        "category": "multi_document",
+        "question": "What is the spending limit requiring Marcus Vance's approval under Policy 2.4, and what was the spending cap in Policy 1.0?",
+        "is_answerable": True,
+        "required_facts": ["$4,000", "$2,500"],
+        "forbidden_facts": [],
+        "gold_document": ["vrcc_travel_policy_v2.pdf", "vrcc_travel_policy_v1.pdf"],
+        "gold_evidence_string": "spending authority is expanded: project directors can approve expenses up to $4,000",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q21",
+        "category": "multi_document",
+        "question": "What is the Titan-X rotor blade material, and what is the daily freight capacity of the Orion network?",
+        "is_answerable": True,
+        "required_facts": ["carbon-fiber", "4,200 metric tons"],
+        "forbidden_facts": [],
+        "gold_document": ["aethelgard_titan_drone_specs.pdf", "orion_fleet_logistics.docx"],
+        "gold_evidence_string": "carbon-fiber reinforced blades",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q22",
+        "category": "multi_document",
+        "question": "What email address is used for expense submission under Policy 1.0, and what email handles Aurora compiler exceptions?",
+        "is_answerable": True,
+        "required_facts": ["expense-audit@vaelen.internal", "sys-quantum@vaelen.internal"],
+        "forbidden_facts": [],
+        "gold_document": ["vrcc_travel_policy_v1.pdf", "aurora_quantum_compiler.pdf"],
+        "gold_evidence_string": "expense-audit@vaelen.internal",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q23",
+        "category": "multi_document",
+        "question": "How many heavy haulers operate at Westbay Maritime Complex, and what is the maximum payload of the Titan-X?",
+        "is_answerable": True,
+        "required_facts": ["26", "18.4 kilograms"],
+        "forbidden_facts": [],
+        "gold_document": ["orion_fleet_logistics.docx", "aethelgard_titan_drone_specs.pdf"],
+        "gold_evidence_string": "26 heavy haulers",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q24",
+        "category": "multi_document",
+        "question": "What is the lodging cap in Tier-2 cities under Policy 2.4 compared to the domestic cap in Policy 1.0?",
+        "is_answerable": True,
+        "required_facts": ["$195", "$180"],
+        "forbidden_facts": [],
+        "gold_document": ["vrcc_travel_policy_v2.pdf", "vrcc_travel_policy_v1.pdf"],
+        "gold_evidence_string": "For Tier-2 cities, the cap is $195",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 4: Numeric / List (8 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q25",
+        "category": "numeric_list",
+        "question": "What are the exact per-meal allowance breakdowns for breakfast, lunch, and dinner under Policy 2.4?",
+        "is_answerable": True,
+        "required_facts": ["$22", "$28", "$42"],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "Breakfast is allocated $22, lunch $28, and dinner $42",
+        "split": "DEV"
+    },
+    {
+        "id": "Q26",
+        "category": "numeric_list",
+        "question": "List the heavy hauler counts for Southhaven, Eastridge, and Westbay logistics depots.",
+        "is_answerable": True,
+        "required_facts": ["8", "19", "26"],
+        "forbidden_facts": [],
+        "gold_document": "orion_fleet_logistics.docx",
+        "gold_evidence_string": "8 heavy haulers",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q27",
+        "category": "numeric_list",
+        "question": "What are the specific battery specifications (chemistry, energy density, voltage, and amp-hours) of the Titan-X?",
+        "is_answerable": True,
+        "required_facts": ["Lithium-Sulfur", "420 Wh/kg", "74.0 Volts", "85 Amp-hours"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "Lithium-Sulfur solid-core battery pack with an energy density of 420 Wh/kg",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q28",
+        "category": "numeric_list",
+        "question": "In Chapter 5 of the Zephyros manual, what are the module code, telemetry frequency, and coolant flow rate?",
+        "is_answerable": True,
+        "required_facts": ["ZX-1085", "122.25 MHz", "17.5"],
+        "forbidden_facts": [],
+        "gold_document": "zephyros_avionics_handbook.pdf",
+        "gold_evidence_string": "carrier frequency for subsystem 5 is calibrated to 122.25 MHz",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q29",
+        "category": "numeric_list",
+        "question": "What are the electric transport van fleet counts for Northport, Southhaven, and Eastridge?",
+        "is_answerable": True,
+        "required_facts": ["45", "32", "58"],
+        "forbidden_facts": [],
+        "gold_document": "orion_fleet_logistics.docx",
+        "gold_evidence_string": "fleet of 45 autonomous electric transport vans",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q30",
+        "category": "numeric_list",
+        "question": "What are the domestic and international nightly lodging caps under Policy 1.0?",
+        "is_answerable": True,
+        "required_facts": ["$180", "$220"],
+        "forbidden_facts": ["$245", "$195"],
+        "gold_document": "vrcc_travel_policy_v1.pdf",
+        "gold_evidence_string": "nightly rate ceiling is fixed at $180 per night for domestic travel and $220 for international",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q31",
+        "category": "numeric_list",
+        "question": "In Chapter 30 of the Zephyros handbook, what are the carrier frequency and safety interlock voltage?",
+        "is_answerable": True,
+        "required_facts": ["133.50 MHz", "27.0 V"],
+        "forbidden_facts": [],
+        "gold_document": "zephyros_avionics_handbook.pdf",
+        "gold_evidence_string": "carrier frequency for subsystem 30 is calibrated to 133.50 MHz",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q32",
+        "category": "numeric_list",
+        "question": "What is the daily freight tonnage handled by Orion logistics, and what is its average turnaround time?",
+        "is_answerable": True,
+        "required_facts": ["4,200 metric tons", "4.2 hours"],
+        "forbidden_facts": [],
+        "gold_document": "orion_fleet_logistics.docx",
+        "gold_evidence_string": "4,200 metric tons of freight daily with average delivery turnaround of 4.2 hours",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 5: Distractor / Conflicting versions (6 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q33",
+        "category": "distractor_conflict",
+        "question": "What is the current maximum daily meal per diem for VRCC business travel?",
+        "is_answerable": True,
+        "required_facts": ["$92"],
+        "forbidden_facts": ["$65"],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "daily meal per diem allowance is raised to exactly $92",
+        "split": "DEV"
+    },
+    {
+        "id": "Q34",
+        "category": "distractor_conflict",
+        "question": "What is the standard hotel nightly rate ceiling under the currently effective VRCC travel policy?",
+        "is_answerable": True,
+        "required_facts": ["$245"],
+        "forbidden_facts": ["$180"],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "hotel ceiling is increased to $245 per night",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q35",
+        "category": "distractor_conflict",
+        "question": "What is the project director travel spending cap before requiring CFO executive approval?",
+        "is_answerable": True,
+        "required_facts": ["$4,000"],
+        "forbidden_facts": ["$2,500"],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "spending authority is expanded: project directors can approve expenses up to $4,000",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q36",
+        "category": "distractor_conflict",
+        "question": "Are room service and minibar charges reimbursable according to VRCC Policy 1.0?",
+        "is_answerable": True,
+        "required_facts": ["non-reimbursable", "Policy 1.0"],
+        "forbidden_facts": ["reimbursable"],
+        "gold_document": "vrcc_travel_policy_v1.pdf",
+        "gold_evidence_string": "Room service and minibar charges are strictly non-reimbursable under Policy 1.0",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q37",
+        "category": "distractor_conflict",
+        "question": "What was the previous domestic lodging cap prior to the adoption of Policy 2.4?",
+        "is_answerable": True,
+        "required_facts": ["$180"],
+        "forbidden_facts": ["$245"],
+        "gold_document": "vrcc_travel_policy_v1.pdf",
+        "gold_evidence_string": "standard hotel nightly rate ceiling is fixed at $180",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q38",
+        "category": "distractor_conflict",
+        "question": "Under the current VRCC guidelines, how much can an employee claim for dinner expenses?",
+        "is_answerable": True,
+        "required_facts": ["$42"],
+        "forbidden_facts": ["$65"],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "dinner $42",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 6: Low-lexical-overlap paraphrase (6 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q39",
+        "category": "paraphrase",
+        "question": "How much cargo can the heavy drone transport when fully laden?",
+        "is_answerable": True,
+        "required_facts": ["18.4", "kilograms"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "maximum certified payload capacity of the Titan-X is exactly 18.4 kilograms",
+        "split": "DEV"
+    },
+    {
+        "id": "Q40",
+        "category": "paraphrase",
+        "question": "How long can the unmanned aircraft remain airborne before its battery is depleted?",
+        "is_answerable": True,
+        "required_facts": ["142 minutes"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "flight endurance is 142 minutes with a 5 kg sensor payload",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q41",
+        "category": "paraphrase",
+        "question": "What financial compensation is provided to staff operating zero-emission corporate vehicles per road distance traveled?",
+        "is_answerable": True,
+        "required_facts": ["$0.34", "mile"],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": "charging stipend of $0.34 per mile",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q42",
+        "category": "paraphrase",
+        "question": "What is the refrigeration thermal floor inside the quantum processing unit's cooling chamber?",
+        "is_answerable": True,
+        "required_facts": ["12.4 millikelvin"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "base operating temperature of 12.4 millikelvin",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q43",
+        "category": "paraphrase",
+        "question": "How long does quantum information persist before state corruption in the Aurora architecture?",
+        "is_answerable": True,
+        "required_facts": ["840 microseconds"],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": "decoherence window of the processing nodes is precisely 840 microseconds",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q44",
+        "category": "paraphrase",
+        "question": "What is the peak altitude threshold to which drone operations are confined?",
+        "is_answerable": True,
+        "required_facts": ["4,500 meters"],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": "restricted to 4,500 meters above ground level",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 7: Position-Sensitive Pairs (Testing H1 & H2) (6 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q45_pos_start",
+        "category": "position_sensitive",
+        "question": "What is the exact Chronos sub-harmonic calibration frequency and who calibrated it?",
+        "is_answerable": True,
+        "required_facts": ["418.75 MHz", "Julian Vance"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "Chronos sub-harmonic frequency is calibrated to exactly 418.75 MHz by senior physicist Dr. Julian Vance",
+        "split": "DEV"
+    },
+    {
+        "id": "Q46_pos_end",
+        "category": "position_sensitive",
+        "question": "What is the thermal dissipation buffer threshold and who established the rating?",
+        "is_answerable": True,
+        "required_facts": ["1340 Joules per Kelvin", "Cynthia Cruz"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "thermal dissipation buffer threshold is rated at exactly 1340 Joules per Kelvin by lead thermodynamicist Dr. Cynthia Cruz",
+        "split": "DEV"
+    },
+    {
+        "id": "Q47_pos_start",
+        "category": "position_sensitive",
+        "question": "According to the Chronos technical briefing, what frequency value was verified by Dr. Julian Vance?",
+        "is_answerable": True,
+        "required_facts": ["418.75 MHz"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "Chronos sub-harmonic frequency is calibrated to exactly 418.75 MHz",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q48_pos_end",
+        "category": "position_sensitive",
+        "question": "According to the Chronos technical briefing, what buffer rating in Joules per Kelvin was calculated by Dr. Cynthia Cruz?",
+        "is_answerable": True,
+        "required_facts": ["1340"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "thermal dissipation buffer threshold is rated at exactly 1340 Joules per Kelvin",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q49_pos_start",
+        "category": "position_sensitive",
+        "question": "Who is identified as the senior physicist calibrating the sub-harmonic frequency in Project Chronos?",
+        "is_answerable": True,
+        "required_facts": ["Julian Vance"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "senior physicist Dr. Julian Vance",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q50_pos_end",
+        "category": "position_sensitive",
+        "question": "Who serves as the lead thermodynamicist in Project Chronos?",
+        "is_answerable": True,
+        "required_facts": ["Cynthia Cruz"],
+        "forbidden_facts": [],
+        "gold_document": "project_chronos_research.txt",
+        "gold_evidence_string": "lead thermodynamicist Dr. Cynthia Cruz",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 8: DOCX Table Extraction (Testing H10) (4 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q51_table",
+        "category": "docx_table",
+        "question": "Under the Nyx Security protocol, who is the escalation lead and what is the SLA for a Rogue Key Generation incident?",
+        "is_answerable": True,
+        "required_facts": ["Dr. Aris Thorne", "15 minutes"],
+        "forbidden_facts": [],
+        "gold_document": "nyx_security_incident_response.docx",
+        "gold_evidence_string": "Rogue Key Generation",
+        "split": "DEV"
+    },
+    {
+        "id": "Q52_table",
+        "category": "docx_table",
+        "question": "What is the pager code for Elena Rostova during a DDoS incident exceeding 50Gbps?",
+        "is_answerable": True,
+        "required_facts": ["PK-7740"],
+        "forbidden_facts": [],
+        "gold_document": "nyx_security_incident_response.docx",
+        "gold_evidence_string": "PK-7740",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q53_table",
+        "category": "docx_table",
+        "question": "What response time SLA is assigned to Moderate-3 Failed Auth Burst incidents in the Nyx playbook?",
+        "is_answerable": True,
+        "required_facts": ["60 minutes"],
+        "forbidden_facts": [],
+        "gold_document": "nyx_security_incident_response.docx",
+        "gold_evidence_string": "Failed Auth Burst",
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q54_table",
+        "category": "docx_table",
+        "question": "Who is assigned to handle Minor-4 Certificate Expiry Warnings and what is their pager code?",
+        "is_answerable": True,
+        "required_facts": ["Sarah Jenkins", "PK-1102"],
+        "forbidden_facts": [],
+        "gold_document": "nyx_security_incident_response.docx",
+        "gold_evidence_string": "Sarah Jenkins",
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 9: Unanswerable - Topic-Adjacent (6 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q55_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "What is the maximum underwater diving depth of the Titan-X unmanned vehicle?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "DEV"
+    },
+    {
+        "id": "Q56_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "What is the per diem reimbursement rate for train tickets between Paris and Berlin under VRCC Policy 2.4?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q57_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "What is the warranty period for replacement carbon-fiber blades on the Titan-X?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q58_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "What brand of liquid nitrogen is purchased to chill the Aurora quantum cryostat?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q59_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "What salary bonus do project directors receive for staying under the $4,000 travel spending limit?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q60_unans_topic",
+        "category": "unanswerable_topic",
+        "question": "Which airline is VRCC's preferred partner for transatlantic executive travel?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 10: Unanswerable - Completely Out of KB (5 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q61_unans_out",
+        "category": "unanswerable_out_of_kb",
+        "question": "What was the total net profit of Starbucks in the third fiscal quarter of 2019?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "DEV"
+    },
+    {
+        "id": "Q62_unans_out",
+        "category": "unanswerable_out_of_kb",
+        "question": "What is the average gestation period of the blue whale?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q63_unans_out",
+        "category": "unanswerable_out_of_kb",
+        "question": "Who won the FIFA Men's World Cup in 1998 and who scored the final goal?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q64_unans_out",
+        "category": "unanswerable_out_of_kb",
+        "question": "What is the standard chemical synthesis pathway for synthesizing aspirin from salicylic acid?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q65_unans_out",
+        "category": "unanswerable_out_of_kb",
+        "question": "How many moons does the planet Saturn have according to the International Astronomical Union?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": None,
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+
+    # -------------------------------------------------------------
+    # Category 11: False Premise Questions (5 questions)
+    # -------------------------------------------------------------
+    {
+        "id": "Q66_false_premise",
+        "category": "false_premise",
+        "question": "Why did VRCC Policy 2.4 lower the daily meal per diem to $35?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v2.pdf",
+        "gold_evidence_string": None,
+        "split": "DEV"
+    },
+    {
+        "id": "Q67_false_premise",
+        "category": "false_premise",
+        "question": "How did the Titan-X achieve a payload capacity of 150 kilograms using diesel engines?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": "aethelgard_titan_drone_specs.pdf",
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q68_false_premise",
+        "category": "false_premise",
+        "question": "Which room service meals are fully reimbursable under VRCC Policy 1.0?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": "vrcc_travel_policy_v1.pdf",
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q69_false_premise",
+        "category": "false_premise",
+        "question": "Why does the Aurora Quantum Compiler require room temperature operation at 300 Kelvin?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": "aurora_quantum_compiler.pdf",
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    },
+    {
+        "id": "Q70_false_premise",
+        "category": "false_premise",
+        "question": "How many nuclear powered submarines are managed at the Westbay Maritime Complex?",
+        "is_answerable": False,
+        "required_facts": [],
+        "forbidden_facts": [],
+        "gold_document": "orion_fleet_logistics.docx",
+        "gold_evidence_string": None,
+        "split": "HELD_OUT"
+    }
+]

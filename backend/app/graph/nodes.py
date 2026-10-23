@@ -55,4 +55,8 @@ def route_on_evidence(state: RAGState) -> str:
         # Give up retrying -- report_node will produce a low/zero-confidence
         # answer rather than looping forever.
         return "report"
+    if state.get("current_top_k", settings.DEFAULT_TOP_K) >= settings.MAX_TOP_K:
+        # H4 Fix: Top-K is already at maximum (e.g. 12).
+        # Retrying would re-query the exact same top-12 chunks and waste an LLM call.
+        return "report"
     return "retry"

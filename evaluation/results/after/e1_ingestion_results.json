@@ -1,0 +1,92 @@
+{
+  "text_recovery": [
+    {
+      "format": "PDF",
+      "filename": "vrcc_travel_policy_v2.pdf",
+      "needle": "Breakfast is allocated $22, lunch $28, and dinner $42",
+      "recovered": true,
+      "num_pages_loaded": 2
+    },
+    {
+      "format": "PDF_Multi",
+      "filename": "aethelgard_titan_drone_specs.pdf",
+      "needle": "maximum continuous flight endurance is 142 minutes",
+      "recovered": true,
+      "num_pages_loaded": 3
+    },
+    {
+      "format": "TXT",
+      "filename": "project_chronos_research.txt",
+      "needle": "Chronos sub-harmonic frequency is calibrated to exactly 418.75 MHz",
+      "recovered": true,
+      "num_pages_loaded": 1
+    },
+    {
+      "format": "DOCX_Paras",
+      "filename": "orion_fleet_logistics.docx",
+      "needle": "Operates a fleet of 45 autonomous electric transport vans",
+      "recovered": true,
+      "num_pages_loaded": 1
+    }
+  ],
+  "h10_docx_table_extracted": {
+    "filename": "nyx_security_incident_response.docx",
+    "needle_1": "Dr. Aris Thorne",
+    "needle_2": "PK-9912",
+    "table_extracted": true,
+    "finding": "Extracted"
+  },
+  "scanned_pdf_behavior": {
+    "filename": "scanned_archive_receipt.pdf",
+    "pages_loaded": 1,
+    "total_extracted_chars": 0,
+    "chunks_produced": 0,
+    "finding": "PyMuPDF get_text produces empty text on scanned/image-only PDFs (no OCR fallback)"
+  },
+  "h10_latin1_txt_behavior": {
+    "filename": "latin1_legacy_notes.txt",
+    "raised_exception": false,
+    "exception": null,
+    "finding": "Loaded"
+  },
+  "empty_file_behavior": {
+    "filename": "empty_document.txt",
+    "pages_loaded": 1,
+    "chunks_produced": 0
+  },
+  "dotless_filename_behavior": {
+    "filename": "unsupported_dotless_doc",
+    "parsed_extension": "unsupported_dotless_doc",
+    "exception": "Unsupported file type: unsupported_dotless_doc"
+  },
+  "h9_duplicate_upload": {
+    "initial_chunks": 1,
+    "chunks_after_duplicate_upload": 2,
+    "chunks_duplicated": true,
+    "finding": "CONFIRMED: routes_upload.py generates a random UUID per upload and adds all chunks to Chroma without deduplication"
+  },
+  "h1_truncation_analysis": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "model_max_seq_length": 256,
+    "configured_chunk_size_words": 160,
+    "total_chunks_analyzed": 70,
+    "total_chunks_truncated": 0,
+    "pct_chunks_truncated": 0.0,
+    "mean_chunk_words": 91.2,
+    "max_chunk_words": 160,
+    "min_chunk_words": 42,
+    "mean_chunk_tokens": 146.1,
+    "max_chunk_tokens": 230,
+    "finding": "CONFIRMED: all-MiniLM-L6-v2 max_seq_length is 256; large chunks exceed limit and are truncated"
+  },
+  "throughput_52_page_pdf": {
+    "pages": 52,
+    "chunks": 52,
+    "load_time_sec": 0.0147,
+    "chunk_time_sec": 0.0015,
+    "total_time_sec": 0.0162,
+    "pages_per_sec": 3218.2,
+    "chunks_per_sec": 3218.2,
+    "peak_memory_mb": 0.08
+  }
+}

@@ -31,9 +31,12 @@ def _format_evidence(trusted_chunks) -> str:
 
 
 def generate_report(state: RAGState) -> RAGState:
-    trusted_chunks = state["trusted_chunks"]
+    trusted_chunks = state.get("trusted_chunks", [])
+    evidence_status = state.get("evidence_status", "insufficient")
 
-    if not trusted_chunks:
+    # H5 Fix: If evidence was judged insufficient (even after retries) or no trusted chunks exist,
+    # cleanly abstain rather than hallucinating an answer.
+    if not trusted_chunks or evidence_status == "insufficient":
         state["generated_answer"] = (
             "I don't have sufficient verified evidence in the knowledge "
             "base to answer this question confidently."

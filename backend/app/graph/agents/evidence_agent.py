@@ -48,9 +48,11 @@ def _format_candidates(chunks) -> str:
     lines = []
     for i, c in enumerate(chunks):
         meta = c["metadata"]
+        # H2 Fix: Do not aggressively truncate chunks to 600 characters; allow full chunk up to 2000 chars
+        text_snippet = c["text"][:2000]
         lines.append(
             f"[{i}] ({meta.get('document_name')}, page {meta.get('page_number')}): "
-            f"{c['text'][:600]}"
+            f"{text_snippet}"
         )
     return "\n\n".join(lines)
 
@@ -74,6 +76,7 @@ def _similarity_fallback(state: RAGState) -> RAGState:
         if score >= settings.SIMILARITY_THRESHOLD
     ]
     state["trusted_chunks"] = trusted
+    state["evidence_mode"] = "similarity_fallback"  # H3 Fix
     state["evidence_status"] = (
         "sufficient" if len(trusted) >= settings.MIN_TRUSTED_CHUNKS else "insufficient"
     )
@@ -92,6 +95,7 @@ def _llm_judge(state: RAGState) -> RAGState:
     if not candidates:
         state["trusted_chunks"] = []
         state["evidence_status"] = "insufficient"
+        state["evidence_mode"] = "llm"  # H3 Fix
         return state
 
     candidate_chunks = [c for c, _ in candidates]
@@ -118,6 +122,7 @@ def _llm_judge(state: RAGState) -> RAGState:
     ]
 
     state["trusted_chunks"] = trusted
+    state["evidence_mode"] = "llm"  # H3 Fix
     # Require both the LLM's judgment AND a minimum evidence count --
     # guards against the LLM saying "sufficient" off a single thin chunk.
     state["evidence_status"] = (
@@ -134,8 +139,7 @@ def evaluate_evidence(state: RAGState) -> RAGState:
 
     try:
         return _llm_judge(state)
-    except Exception:
-        # LLM call failed, returned malformed JSON, rate-limited, etc.
-        # Never let evidence judging take down the graph -- degrade
-        # gracefully to similarity filtering instead.
+    except Exception as exc:
+        # H3 Fix: record judge error and degrade gracefully to similarity fallback
+        state["judge_error"] = f"{type(exc).__name__}: {str(exc)}"
         return _similarity_fallback(state)

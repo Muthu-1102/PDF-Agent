@@ -11,6 +11,8 @@ class QueryRequest(BaseModel):
 
 
 @router.post("/")
-async def query(request: QueryRequest):
-    """Runs the full Agentic RAG LangGraph workflow for a single question."""
+def query(request: QueryRequest):
+    """Runs the full Agentic RAG LangGraph workflow for a single question.
+    H8 Fix: Using standard 'def' offloads the synchronous blocking LangGraph workflow
+    and LLM network I/O to a worker threadpool, avoiding event loop starvation."""
     return run_query(request.question)
