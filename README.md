@@ -1,69 +1,250 @@
-# Agentic RAG System (LangGraph)
+# 📄 PDF-Agent: Evidence-Verified Agentic RAG
 
-An Agentic Retrieval-Augmented Generation system built to demonstrate
-**LangGraph orchestration, multi-agent collaboration, and evidence-verified
-answer generation** — not infrastructure plumbing.
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688.svg)](https://fastapi.tiangolo.com/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-0.0.39-orange.svg)](https://langchain-ai.github.io/langgraph/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-0.4.24-red.svg)](https://www.trychroma.com/)
+[![Groq](https://img.shields.io/badge/LLM-Groq%20API-black.svg)](https://groq.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Traditional RAG: `Retrieve -> Generate -> Return`
+An intelligent **Agentic Retrieval-Augmented Generation (RAG)** system built with **FastAPI, LangGraph, ChromaDB, and Groq**. 
 
-This project: `Retrieve -> Evaluate Evidence -> Retry if Needed -> Generate -> Return`
+Unlike standard "naive" RAG systems that blindly generate answers from whatever passages are initially fetched, PDF-Agent implements an **iterative self-correcting feedback loop**: it actively evaluates whether retrieved passages contain genuine factual proof, expands its search window if evidence is insufficient, strictly cites sources inline, and safely abstains when facts do not exist.
 
-See [`Architecture.txt`](./Architecture.txt) for the full design and
-[`docs/ROADMAP.md`](./docs/ROADMAP.md) for the step-by-step build plan.
+---
 
-## Stack
+## 🌟 Why Agentic RAG?
 
-| Layer | Tech |
-|---|---|
-| Agent orchestration | LangGraph |
-| LLM | Groq API |
-| Embeddings | sentence-transformers/all-MiniLM-L6-v2 |
-| Vector store | ChromaDB (embedded, file-persisted — no separate DB service) |
-| Backend API | FastAPI |
-| Frontend | React (minimal — this project's focus is the agentic backend) |
-
-## Project layout
+Standard RAG architectures suffer from a fundamental flaw: **they assume the first retrieval pass is always sufficient**. If the top passages lack critical context or contain misleading distractors, the LLM hallucinates an answer.
 
 ```
-backend/
-  app/
-    api/            FastAPI routes (thin, stateless)
-    core/            config
-    ingestion/       loader + chunker
-    vectorstore/     embedded Chroma client
-    graph/           <-- the interesting part
-      state.py       LangGraph state schema
-      nodes.py       retrieve / evidence / retry / report nodes
-      orchestrator.py  builds + compiles the StateGraph, run_query()
-      agents/
-        evidence_agent.py
-        report_agent.py
-    llm/             Groq client
-    main.py
-frontend/            minimal React chat UI
-docs/
-  ROADMAP.md         step-by-step build plan
+Standard RAG (Naive):
+User Question ──► Retrieve Top-4 ────────────────────────► Generate Answer (Prone to Hallucinations)
+
+PDF-Agent (Agentic):
+User Question ──► Retrieve ──► Evidence Judge Agent ──┬──► [Sufficient] ──► Report Agent ──► Verified Answer + Citations
+                                                      │
+                                                      └──► [Insufficient] ──► Expand Top-K & Retry ──┘
 ```
 
-## Quickstart
+### Key Differences at a Glance
+
+| Capability | Standard RAG | PDF-Agent (Agentic RAG) |
+|---|---|---|
+| **Retrieval Strategy** | Single static pass ($k=4$) | Dynamic & adaptive ($k=4 \rightarrow 8 \rightarrow 12$) |
+| **Evidence Verification** | None (blind generation) | LLM-based Evidence Judge verifies factual proof |
+| **Hallucination Guard** | Vulnerable to distractor passages | Strict abstention gating if evidence is insufficient |
+| **Source Attribution** | Generic or omitted | Enforced inline citations: `[filename, chunk N]` |
+| **Failure Handling** | Fails silently with hallucinated text | Evaluates missing evidence and automatically retries |
+
+---
+
+## 🏗️ How It Works (LangGraph Workflow)
+
+The agentic pipeline is modeled as a state machine using **LangGraph**:
+
+```mermaid
+flowchart TD
+    Start([User Question]) --> RetrieveNode["1. Retrieve Node<br/><i>Queries ChromaDB with cosine similarity</i>"]
+    RetrieveNode --> EvidenceJudge{"2. Evidence Judge Agent<br/><i>Do chunks prove the answer?</i>"}
+    
+    EvidenceJudge -->|Insufficient & retries < MAX| RetryNode["3. Retry Node<br/><i>Widen search window: k += 4</i>"]
+    RetryNode --> RetrieveNode
+    
+    EvidenceJudge -->|Sufficient Evidence| ReportAgent["4. Report Synthesis Agent<br/><i>Generate answer with inline [doc, chunk] citations</i>"]
+    EvidenceJudge -->|Retries Exhausted| ReportAgent
+    
+    ReportAgent --> Finish([Verified Response + Confidence Score])
+```
+
+### The 4 Pipeline Stages
+
+1. **Retrieve Node (`backend/app/graph/nodes.py`)**: 
+   Fetches top-$k$ semantic chunks from persistent ChromaDB vector storage using `all-MiniLM-L6-v2` embeddings.
+2. **Evidence Judge Agent (`backend/app/graph/agents/evidence_agent.py`)**: 
+   An LLM agent that inspects candidate passages against the query. It strips noise, identifies verified proof, and determines whether the passages, taken together, are sufficient to answer the question.
+3. **Adaptive Retry Loop (`backend/app/graph/nodes.py`)**: 
+   If evidence is insufficient, the system automatically expands the retrieval window ($k=4 \rightarrow 8 \rightarrow 12$) and re-queries for deeper context.
+4. **Report Synthesis Agent (`backend/app/graph/agents/report_agent.py`)**: 
+   Synthesizes the final answer using **only** verified trusted chunks. Every single claim is attributed with an inline citation (e.g., `[policy_manual.pdf, chunk 2]`). If facts are missing, it safely abstains rather than hallucinating.
+
+---
+
+## ⚡ Tech Stack
+
+| Component | Technology | Role & Why It Was Chosen |
+|---|---|---|
+| **Agent Orchestration** | [LangGraph](https://langchain-ai.github.io/langgraph/) | Cyclic state machine for managing multi-agent reasoning, conditions, and retries |
+| **LLM Inference** | [Groq API](https://groq.com/) | Ultra-low latency LPU inference (`llama-3.3-70b-versatile` / `qwen/qwen3.8-27b`) |
+| **Vector Embeddings** | [Sentence-Transformers](https://sbert.net/) | `all-MiniLM-L6-v2` dense embeddings for cosine similarity search |
+| **Vector Database** | [ChromaDB](https://www.trychroma.com/) | Embedded, serverless, file-persisted vector store (zero database setup needed) |
+| **Document Ingestion** | PyMuPDF & Python-docx | High-throughput parsing of PDF, Word (DOCX), and plain text documents |
+| **Backend API** | [FastAPI](https://fastapi.tiangolo.com/) | High-performance async REST API with interactive Swagger documentation |
+| **Frontend** | React + Vite | Clean, responsive chat interface with file upload and citation inspection |
+
+---
+
+## 📂 Project Structure
+
+```
+PDF-Agent/
+├── backend/
+│   ├── app/
+│   │   ├── api/                 # FastAPI HTTP endpoints
+│   │   │   ├── routes_upload.py # File ingestion and vector indexing
+│   │   │   └── routes_query.py  # Agentic RAG execution endpoint
+│   │   ├── core/                # Central configuration (config.py)
+│   │   ├── graph/               # LangGraph multi-agent architecture
+│   │   │   ├── state.py         # Shared RAG state schema
+│   │   │   ├── nodes.py         # LangGraph workflow nodes & conditional routing
+│   │   │   ├── orchestrator.py  # Graph compilation and query entrypoint
+│   │   │   └── agents/          # Specialized agent logic
+│   │   │       ├── evidence_agent.py # Evidence relevance & sufficiency judge
+│   │   │       └── report_agent.py   # Synthesis agent with inline citations
+│   │   ├── ingestion/           # Document loaders (PDF, DOCX, TXT) and chunker
+│   │   ├── vectorstore/         # ChromaDB client & collection management
+│   │   ├── llm/                 # Groq client integration
+│   │   └── main.py              # FastAPI application entrypoint
+│   ├── requirements.txt         # Pinned backend dependencies
+│   └── Dockerfile               # Production container image
+├── frontend/                    # Minimal React + Vite web UI
+├── evaluation/                  # Comprehensive empirical evaluation suite
+│   ├── dataset/                 # 70-question benchmark & multi-format synthetic docs
+│   ├── harness/                 # Reproducible evaluation test runners
+│   ├── results/                 # Verified raw test outputs (baseline & after)
+│   ├── figures/                 # Standalone SVG performance charts
+│   ├── report.md                # Comprehensive technical evaluation report
+│   └── resume_evidence.md       # High-signal interview talking points & metrics
+├── docker-compose.yml           # One-command full-stack deployment
+└── README.md                    # Project documentation
+```
+
+---
+
+## 🚀 Quickstart
+
+### Prerequisites
+- Python 3.11+
+- Node.js 18+ (for frontend)
+- A free [Groq API Key](https://console.groq.com/)
+
+---
+
+### Option A: Running with Docker (Recommended)
+
+Run the full stack (FastAPI backend + React frontend) with a single command:
 
 ```bash
-# Backend
-cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env   # add your GROQ_API_KEY
-uvicorn app.main:app --reload
+# 1. Clone the repository
+git clone https://github.com/Muthu-1102/PDF-Agent.git
+cd PDF-Agent
 
-# Frontend (separate terminal)
+# 2. Configure your environment
+cp .env.example .env
+# Open .env and insert your GROQ_API_KEY=gsk_...
+
+# 3. Launch with Docker Compose
+docker-compose up --build
+```
+
+- **Frontend UI:** Open [http://localhost:3000](http://localhost:3000)
+- **Backend API Docs:** Open [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### Option B: Running Locally
+
+#### 1. Backend Setup
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Create and activate virtual environment
+python -m venv .venv
+
+# On Linux/macOS:
+source .venv/bin/activate
+# On Windows (PowerShell):
+.\.venv\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env and set:
+# GROQ_API_KEY=gsk_...
+# GROQ_MODEL=llama-3.3-70b-versatile  (or qwen/qwen3.8-27b)
+
+# Start FastAPI server
+uvicorn app.main:app --reload --port 8000
+```
+
+The backend server is now running at `http://localhost:8000`. You can test endpoints via the interactive Swagger docs at `http://localhost:8000/docs`.
+
+#### 2. Frontend Setup (In a separate terminal)
+
+```bash
+# Navigate to frontend directory
 cd frontend
+
+# Install dependencies and start development server
 npm install
 npm run dev
 ```
 
-Upload a PDF/DOCX/TXT, then ask a question. Watch the terminal / add
-logging in `orchestrator.py` to see the retrieve → evidence → retry loop
-in action.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📖 Using the System
+
+### 1. Ingesting Documents
+Upload any `.pdf`, `.docx`, or `.txt` document through the web interface or via the REST API:
+
+```bash
+curl -X POST "http://localhost:8000/upload/" \
+  -H "accept: application/json" \
+  -F "file=@company_policy.pdf"
+```
+
+**Response:**
+```json
+{
+  "document_id": "a93e3d41-f6be-4b95-a22c-7b003a7d4512",
+  "document_name": "company_policy.pdf",
+  "chunks_indexed": 18
+}
+```
+
+### 2. Asking Questions (Agentic Querying)
+Submit queries to the `/query/` endpoint to trigger the LangGraph agentic reasoning cycle:
+
+```bash
+curl -X POST "http://localhost:8000/query/" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the maximum reimbursable nightly rate for international hotels?"}'
+```
+
+**Response:**
+```json
+{
+  "question": "What is the maximum reimbursable nightly rate for international hotels?",
+  "generated_answer": "According to [company_policy.pdf, chunk 1], the nightly rate ceiling for international business travel is fixed at $220 per night. Any amount exceeding this threshold requires prior written authorization from the department vice president.",
+  "confidence": 0.84,
+  "sources": [
+    {
+      "document": "company_policy.pdf",
+      "chunk_id": 1,
+      "page_number": 2,
+      "score": 0.84
+    }
+  ]
+}
+```
+
+---
 
 <!-- EVAL-MATRIX:START -->
 ## Evaluation Results
@@ -165,3 +346,18 @@ python evaluation/make_readme_section.py
 
 Detailed methodology and raw run data are documented in [`evaluation/README.md`](./evaluation/README.md) and [`evaluation/report.md`](./evaluation/report.md).
 <!-- EVAL-MATRIX:END -->
+
+---
+
+## 🔬 In-Depth Engineering Documentation
+
+For deep technical dives, failure logs, and portfolio talking points:
+- 📊 **[Comprehensive Evaluation Report](evaluation/report.md):** Complete architectural teardown, methodology, failure modes, and statistical analysis.
+- 💼 **[Resume & Portfolio Evidence](evaluation/resume_evidence.md):** High-signal candidate resume bullets, cover letter narratives, and 5 evidence-based interview Q&As.
+- 📐 **[Formal Metric Definitions](evaluation/metrics.md):** Mathematical formulas for Wilson 95% CIs, AUROC, and strict citation validity criteria.
+
+---
+
+## ⚖️ License
+
+Distributed under the MIT License. See `LICENSE` for details.
