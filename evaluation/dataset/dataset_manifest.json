@@ -1,0 +1,22 @@
+{
+  "num_documents": 12,
+  "documents": [
+    "vrcc_travel_policy_v1.pdf",
+    "vrcc_travel_policy_v2.pdf",
+    "aethelgard_titan_drone_specs.pdf",
+    "zephyros_avionics_handbook.pdf",
+    "nyx_security_incident_response.docx",
+    "project_chronos_research.txt",
+    "aurora_quantum_compiler.pdf",
+    "orion_fleet_logistics.docx",
+    "scanned_archive_receipt.pdf",
+    "latin1_legacy_notes.txt",
+    "empty_document.txt",
+    "unsupported_dotless_doc"
+  ],
+  "total_chunks_indexed": 65,
+  "num_questions_total": 70,
+  "num_dev": 12,
+  "num_held_out": 58,
+  "held_out_sha256": "408fd468824e9915e276b750eb4efe56cb1e971bdc94588e0ef0ac04e17b2fe1"
+}

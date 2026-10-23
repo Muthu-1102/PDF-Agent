@@ -1,0 +1,11 @@
+{
+  "num_questions": 58,
+  "llm_judge_sufficiency_on_answerable": 0.1111,
+  "llm_judge_sufficiency_on_unanswerable": 0.0,
+  "similarity_sufficiency_on_answerable": 0.7111,
+  "similarity_sufficiency_on_unanswerable": 0.4615,
+  "h6_single_chunk_false_insufficient_count": 29,
+  "h2_position_start_trusted": 2,
+  "h2_position_end_trusted": 0,
+  "fallback_rate": 0.0
+}

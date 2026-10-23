@@ -64,3 +64,94 @@ npm run dev
 Upload a PDF/DOCX/TXT, then ask a question. Watch the terminal / add
 logging in `orchestrator.py` to see the retrieve → evidence → retry loop
 in action.
+
+<!-- EVAL-MATRIX:START -->
+## Evaluation Results
+
+**Scope:** Independent empirical evaluation of the Agentic RAG architecture across 70 synthetic procedural queries and 12 multi-format documents (PDF, DOCX, TXT), evaluated using `qwen/qwen3.8-27b` and `all-MiniLM-L6-v2` embeddings on commit `b94ce12` (baseline).
+
+# Evaluation Results Matrix
+
+### A) Main Results Matrix
+
+| Experiment | Metric | Definition (short) | n (cases / runs) | Result (95% CI) | Status | Evidence file |
+|---|---|---|---|---|---|---|
+| E1 - Ingestion | Chunk Truncation Rate (H1) | Share of chunks exceeding embedding model max_seq_length (256 tokens) | 2 / 65 chunks | 3.08% (max 689 tokens vs 256 limit) | MEASURED | `evaluation/results/baseline/e1_ingestion_results.json` |
+| E1 - Ingestion | PDF Parsing Throughput | PyMuPDF extraction and chunking rate on 52-page manual | 52 pages | 2295.6 pages/sec (peak mem 0.08 MB) | MEASURED | `evaluation/results/baseline/e1_ingestion_results.json` |
+| E2 - Retrieval | Recall@4 | Fraction of answerable queries where gold chunk in top-4 | 45 queries | 80.0% (95% CI: [66.2%, 89.1%]) | MEASURED | `evaluation/results/baseline/e2_retrieval_summary.json` |
+| E2 - Retrieval | Recall@12 | Fraction of answerable queries where gold chunk in top-12 | 45 queries | 86.7% (95% CI: [73.8%, 93.7%]) | MEASURED | `evaluation/results/baseline/e2_retrieval_summary.json` |
+| E2 - Retrieval | Position-Sensitivity Recall Gap (H1) | Recall@4 for fact at chunk START (tokens 0-50) vs END (tokens >256) | 4 paired queries | Start: 100.0% vs End: 0.0% (Delta: -100.0%) | MEASURED | `evaluation/results/baseline/e2_retrieval_summary.json` |
+| E3 - Evidence Filter | LLM Sufficiency Rate (Answerable) | Rate at which LLM judge flags retrieved chunks as sufficient for answerable queries | 58 queries | 11.1% | MEASURED | `evaluation/results/baseline/e3_summary.json` |
+| E3 - Evidence Filter | Single-Chunk False Insufficiency (H6) | Single-chunk answerable queries rejected due to MIN_TRUSTED_CHUNKS=2 | 58 queries | 29 occurrences | MEASURED | `evaluation/results/baseline/e3_summary.json` |
+| E4 - End-to-End | Answer Correctness (Full System) | Answerable questions with all required facts and zero forbidden facts | 45 questions | 77.8% (95% CI: [63.7%, 87.5%]) | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E4 - End-to-End | Unsupported-Answer Rate (Full System) | Unanswerable questions receiving a substantive hallucinated answer | 13 questions | 53.8% (95% CI: [29.1%, 76.8%]) | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E4 - End-to-End | Over-Abstention Rate (Full System) | Answerable questions incorrectly rejected/abstained | 45 questions | 8.9% (95% CI: [3.5%, 20.7%]) | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E4 - End-to-End | Citation Validity | Inline [doc, chunk N] citations matching trusted_chunks | 58 queries | 86.2% | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E4 - End-to-End | H5 Discrepancy Occurrences | Queries where evidence_status == 'insufficient' yet non-canned answer returned with confidence > 0 | 58 queries | 28 queries | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E4 - End-to-End | Confidence AUROC (H7) | Discrimination power of mean cosine similarity predicting correctness | 45 questions | 0.7657 (non-calibrated) | MEASURED | `evaluation/results/baseline/e4_ablation_summary.json` |
+| E7 - Concurrency | Event-Loop Blocking Duration (H8) | HTTP GET /health latency during concurrent /query execution | 1 concurrent query | 0.0265s (status 200) | MEASURED | `evaluation/results/baseline/e7_concurrency_latency.json` |
+
+### B) Comparison Matrix across Architectural Configurations
+
+| Configuration | Answer Correctness | Unsupported Answer Rate | Over-Abstention Rate | Citation Validity | LLM Calls / Query | p50 Latency (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Arm B Standard RAG | 73.3% | 15.4% | 20.0% | 100.0% | 1.0 | 3.809s |
+| Arm D Similarity Only | 66.7% | 15.4% | 20.0% | 100.0% | 0.88 | 2.958s |
+| Arm C No Retry | 75.6% | 23.1% | 20.0% | 100.0% | 1.67 | 6.777s |
+| Arm A Full System | 77.8% | 53.8% | 8.9% | 86.2% | 3.98 | 47.765s |
+
+### C) Hypotheses Verification Matrix
+
+| Hypothesis / Weakness | Status | Evidence File | Fixed in improvements? |
+|---|---|---|---|
+| H1: Embedding Truncation (256 tokens vs 500 words) | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json, e2_retrieval_summary.json` | Pending Phase 6 |
+| H2: Evidence Judge 600-char Prompt Truncation | **CONFIRMED** | `evaluation/results/baseline/e3_summary.json` | Pending Phase 6 |
+| H3: Silent Fallback to Cosine Similarity | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
+| H4: Redundant Top-K at Retry 3 (k=12 identical to retry 2) | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
+| H5: Abstention Keyed on Empty Chunks, not evidence_status | **CONFIRMED** | `evaluation/results/baseline/e4_ablation_summary.json` | Pending Phase 6 |
+| H6: MIN_TRUSTED_CHUNKS=2 False Insufficiency on 1-chunk answer | **CONFIRMED** | `evaluation/results/baseline/e3_summary.json` | Pending Phase 6 |
+| H7: Confidence Score is Non-Calibrated Cosine Mean | **CONFIRMED** | `evaluation/results/baseline/e4_ablation_summary.json` | Pending Phase 6 |
+| H8: Report Agent Error Propagates to 500; Event Loop Blocked | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json, e7_concurrency_latency.json` | Pending Phase 6 |
+| H9: Re-upload Duplicates Chunks Without Deduplication | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json` | Pending Phase 6 |
+| H10: DOCX Tables Ignored; Non-UTF8 TXT Raises 500 | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json` | Pending Phase 6 |
+| H11: conversation_history Field in State is Ignored | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
+| H12: Pinned Dependencies Installability on Modern Python | **CONFIRMED** | `evaluation/manifest.json` | Verified on Python 3.11.9 |
+
+
+### Key Findings
+
+1. **Embedding Truncation Bottleneck (H1 Confirmed):** `all-MiniLM-L6-v2` has a strict 256-token limit. With 500-word chunks (~680 tokens), ~62% of each chunk's content is truncated at indexing time. Queries targeting facts at chunk start achieved 100% Recall@4, whereas facts at chunk end achieved 0.0% Recall@4.
+2. **Evidence Judge Calibration & Abstention (H5, H6 Confirmed):** `MIN_TRUSTED_CHUNKS=2` causes false 'insufficient' verdicts on questions answerable by a single chunk. Crucially, the Report Agent abstains only on *empty* trusted chunks; when retries exhaust, answers are generated with non-zero confidence even when `evidence_status == 'insufficient'`.
+3. **Redundant Retrieval on Retry (H4 Confirmed):** With `TOP_K_STEP=4` and `MAX_TOP_K=12`, the third retry step retrieves at top-k=12 identically to the second retry, wasting an LLM verification call with zero new information.
+4. **Format & Input Vulnerabilities (H10 Confirmed):** The DOCX loader reads only `paragraphs` and completely drops table data. Non-UTF-8 text files raise an unhandled `UnicodeDecodeError` (HTTP 500).
+5. **FastAPI Event Loop Blocking (H8 Confirmed):** Calling synchronous `run_query()` inside an `async def` route blocks the single-threaded asyncio event loop during vector queries and LLM API calls, degrading concurrent health check responsiveness.
+
+### Known Limitations
+
+- **Synthetic Corpus:** The evaluation corpus was procedurally generated to avoid parametric memory leakage, but lacks real-world OCR noise and multi-column document complexity.
+- **Single Model Evaluation:** Live generation was evaluated against `qwen/qwen3.8-27b` due to `llama-3.3-70b-versatile` deprecation/access restrictions on Groq API.
+- **Token-per-Minute Rate Caps:** Evaluations were paced to respect free-tier 8,000 TPM rate limits.
+- **Sample Scale:** Statistical confidence intervals reflect 70 questions (58 held-out, 12 dev); larger production sets would yield tighter bounds.
+
+### How to Reproduce
+
+```bash
+# 1. Activate project virtualenv and set PYTHONPATH
+source .venv/bin/activate  # or .\.venv\Scripts\Activate.ps1 on Windows
+export PYTHONPATH="backend:."
+
+# 2. Run deterministic evaluation suite
+python evaluation/harness/run_e1_ingestion.py
+python evaluation/harness/run_e2_retrieval.py
+python evaluation/harness/run_e5_e6_deterministic.py
+
+# 3. Run LLM evaluation suite (requires GROQ_API_KEY in backend/.env)
+python evaluation/harness/run_e3_e4_e7_llm.py
+
+# 4. Generate results matrix and sync README
+python evaluation/make_matrix.py
+python evaluation/make_readme_section.py
+```
+
+Detailed methodology and raw run data are documented in [`evaluation/README.md`](./evaluation/README.md) and [`evaluation/report.md`](./evaluation/report.md).
+<!-- EVAL-MATRIX:END -->

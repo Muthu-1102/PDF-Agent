@@ -1,0 +1,30 @@
+{
+  "per_node_timings": [
+    {
+      "retrieve_sec": 0.0179,
+      "evidence_sec": 0.0,
+      "report_sec": 3.9074,
+      "total_sec": 3.9253
+    },
+    {
+      "retrieve_sec": 0.0182,
+      "evidence_sec": 0.0,
+      "report_sec": 3.7532,
+      "total_sec": 3.7715
+    },
+    {
+      "retrieve_sec": 0.0609,
+      "evidence_sec": 0.0,
+      "report_sec": 2.662,
+      "total_sec": 2.7229
+    }
+  ],
+  "mean_retrieve_sec": 0.0323,
+  "mean_evidence_sec": 0.0,
+  "mean_report_sec": 3.4409,
+  "h8_event_loop_blocking": {
+    "health_during_query_latency_sec": 0.0265,
+    "health_status": 200,
+    "finding": "In FastAPI, calling synchronous blocking run_query() in an async def handler blocks the event loop thread during vector search and LLM network I/O"
+  }
+}

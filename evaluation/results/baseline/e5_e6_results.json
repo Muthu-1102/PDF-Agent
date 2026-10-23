@@ -1,0 +1,123 @@
+{
+  "experiment_e5_mock_control_flow": {
+    "h4_top_k_progression": {
+      "progression": [
+        {
+          "retry_count": 0,
+          "current_top_k": 4
+        },
+        {
+          "retry_count": 1,
+          "current_top_k": 8
+        },
+        {
+          "retry_count": 2,
+          "current_top_k": 12
+        },
+        {
+          "retry_count": 3,
+          "current_top_k": 12
+        },
+        {
+          "retry_count": 4,
+          "current_top_k": 12
+        }
+      ],
+      "retry_2_top_k": 12,
+      "retry_3_top_k": 12,
+      "is_retry_3_redundant": true,
+      "finding": "CONFIRMED: Retry 2 sets top-k=12 (MAX_TOP_K); Retry 3 repeats an identical retrieval at top-k=12"
+    },
+    "route_on_evidence_boundaries": [
+      {
+        "evidence_status": "sufficient",
+        "retry_count": 0,
+        "expected_route": "report",
+        "actual_route": "report",
+        "passed": true
+      },
+      {
+        "evidence_status": "sufficient",
+        "retry_count": 1,
+        "expected_route": "report",
+        "actual_route": "report",
+        "passed": true
+      },
+      {
+        "evidence_status": "sufficient",
+        "retry_count": 3,
+        "expected_route": "report",
+        "actual_route": "report",
+        "passed": true
+      },
+      {
+        "evidence_status": "insufficient",
+        "retry_count": 0,
+        "expected_route": "retry",
+        "actual_route": "retry",
+        "passed": true
+      },
+      {
+        "evidence_status": "insufficient",
+        "retry_count": 1,
+        "expected_route": "retry",
+        "actual_route": "retry",
+        "passed": true
+      },
+      {
+        "evidence_status": "insufficient",
+        "retry_count": 2,
+        "expected_route": "retry",
+        "actual_route": "retry",
+        "passed": true
+      },
+      {
+        "evidence_status": "insufficient",
+        "retry_count": 3,
+        "expected_route": "report",
+        "actual_route": "report",
+        "passed": true
+      },
+      {
+        "evidence_status": "insufficient",
+        "retry_count": 4,
+        "expected_route": "report",
+        "actual_route": "report",
+        "passed": true
+      }
+    ]
+  },
+  "experiment_e6_robustness_and_fault_injection": {
+    "empty_kb_query": {
+      "success": true,
+      "retrieved_count": 0,
+      "chunks": []
+    },
+    "h3_silent_fallback_fault_injection": {
+      "status": "MOCK_FAULT_INJECTION",
+      "mock_429_fallback_engaged": true,
+      "mock_malformed_json_fallback_engaged": true,
+      "api_reveals_mode": false,
+      "finding": "CONFIRMED: Evidence agent catches ANY Exception and silently falls back to similarity without flagging fallback in state"
+    },
+    "h8_report_agent_unhandled_failure": {
+      "status": "MOCK_FAULT_INJECTION",
+      "raised_exception": true,
+      "exception_type": "ConnectionResetError: Mock Groq API Connection Drop",
+      "finding": "CONFIRMED: Report Agent lacks try/except or retry logic; upstream API failures directly propagate to uncaught 500 error"
+    },
+    "h11_conversation_history": {
+      "prompt_template": "You are the Report Agent in an Agentic RAG system.\nAnswer the user's question using ONLY the evidence provided below.\nDo not use outside knowledge. If the evidence does not fully answer the\nquestion, say explicitly what is missing. Cite the document name and\nchunk id inline for every claim, like [doc_name, chunk 3].\n\nQuestion: {question}\n\nEvidence:\n{evidence}\n\nAnswer:",
+      "contains_conversation_history_variable": false,
+      "finding": "CONFIRMED: REPORT_PROMPT only formats {question} and {evidence}; conversation_history is ignored"
+    },
+    "prompt_injection_canary_inspection": {
+      "finding": "Evidence is directly interpolated into REPORT_PROMPT without delimiter neutralization or instruction sanitization"
+    },
+    "edge_case_inputs": {
+      "empty_question": "Handled without crashing (empty query text)",
+      "long_question_10k_chars": "Accepted by router (no input validation length cap)",
+      "emoji_question": "Processed normally through tokenizer and vector search"
+    }
+  }
+}

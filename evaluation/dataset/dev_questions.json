@@ -1,0 +1,227 @@
+[
+  {
+    "id": "Q01",
+    "category": "single_chunk_fact",
+    "question": "What is the battery energy density of the Titan-X autonomous unmanned vehicle?",
+    "is_answerable": true,
+    "required_facts": [
+      "420 Wh/kg",
+      "Lithium-Sulfur"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "aethelgard_titan_drone_specs.pdf",
+    "gold_evidence_string": "energy density of 420 Wh/kg",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "aethelgard_titan_drone_specs.pdf",
+        "chunk_index": 0,
+        "page_number": 1,
+        "ref_id": "aethelgard_titan_drone_specs.pdf_chunk_0"
+      }
+    ]
+  },
+  {
+    "id": "Q11",
+    "category": "multi_chunk_single_doc",
+    "question": "What are the maximum payload capacity and the continuous flight endurance of the Titan-X?",
+    "is_answerable": true,
+    "required_facts": [
+      "18.4 kilograms",
+      "142 minutes"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "aethelgard_titan_drone_specs.pdf",
+    "gold_evidence_string": "payload capacity of the Titan-X is exactly 18.4 kilograms",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "aethelgard_titan_drone_specs.pdf",
+        "chunk_index": 1,
+        "page_number": 2,
+        "ref_id": "aethelgard_titan_drone_specs.pdf_chunk_1"
+      }
+    ]
+  },
+  {
+    "id": "Q19",
+    "category": "multi_document",
+    "question": "Compare the flight endurance of the Titan-X drone with the average delivery turnaround time of Orion logistics.",
+    "is_answerable": true,
+    "required_facts": [
+      "142 minutes",
+      "4.2 hours"
+    ],
+    "forbidden_facts": [],
+    "gold_document": [
+      "aethelgard_titan_drone_specs.pdf",
+      "orion_fleet_logistics.docx"
+    ],
+    "gold_evidence_string": "flight endurance is 142 minutes",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "aethelgard_titan_drone_specs.pdf",
+        "chunk_index": 1,
+        "page_number": 2,
+        "ref_id": "aethelgard_titan_drone_specs.pdf_chunk_1"
+      }
+    ]
+  },
+  {
+    "id": "Q25",
+    "category": "numeric_list",
+    "question": "What are the exact per-meal allowance breakdowns for breakfast, lunch, and dinner under Policy 2.4?",
+    "is_answerable": true,
+    "required_facts": [
+      "$22",
+      "$28",
+      "$42"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "vrcc_travel_policy_v2.pdf",
+    "gold_evidence_string": "Breakfast is allocated $22, lunch $28, and dinner $42",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "vrcc_travel_policy_v2.pdf",
+        "chunk_index": 0,
+        "page_number": 1,
+        "ref_id": "vrcc_travel_policy_v2.pdf_chunk_0"
+      }
+    ]
+  },
+  {
+    "id": "Q33",
+    "category": "distractor_conflict",
+    "question": "What is the current maximum daily meal per diem for VRCC business travel?",
+    "is_answerable": true,
+    "required_facts": [
+      "$92"
+    ],
+    "forbidden_facts": [
+      "$65"
+    ],
+    "gold_document": "vrcc_travel_policy_v2.pdf",
+    "gold_evidence_string": "daily meal per diem allowance is raised to exactly $92",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "vrcc_travel_policy_v2.pdf",
+        "chunk_index": 0,
+        "page_number": 1,
+        "ref_id": "vrcc_travel_policy_v2.pdf_chunk_0"
+      }
+    ]
+  },
+  {
+    "id": "Q39",
+    "category": "paraphrase",
+    "question": "How much cargo can the heavy drone transport when fully laden?",
+    "is_answerable": true,
+    "required_facts": [
+      "18.4",
+      "kilograms"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "aethelgard_titan_drone_specs.pdf",
+    "gold_evidence_string": "maximum certified payload capacity of the Titan-X is exactly 18.4 kilograms",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "aethelgard_titan_drone_specs.pdf",
+        "chunk_index": 1,
+        "page_number": 2,
+        "ref_id": "aethelgard_titan_drone_specs.pdf_chunk_1"
+      }
+    ]
+  },
+  {
+    "id": "Q45_pos_start",
+    "category": "position_sensitive",
+    "question": "What is the exact Chronos sub-harmonic calibration frequency and who calibrated it?",
+    "is_answerable": true,
+    "required_facts": [
+      "418.75 MHz",
+      "Julian Vance"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "project_chronos_research.txt",
+    "gold_evidence_string": "Chronos sub-harmonic frequency is calibrated to exactly 418.75 MHz by senior physicist Dr. Julian Vance",
+    "split": "DEV",
+    "gold_chunks": [
+      {
+        "document_name": "project_chronos_research.txt",
+        "chunk_index": 0,
+        "page_number": 1,
+        "ref_id": "project_chronos_research.txt_chunk_0"
+      }
+    ]
+  },
+  {
+    "id": "Q46_pos_end",
+    "category": "position_sensitive",
+    "question": "What is the thermal dissipation buffer threshold and who established the rating?",
+    "is_answerable": true,
+    "required_facts": [
+      "1340 Joules per Kelvin",
+      "Cynthia Cruz"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "project_chronos_research.txt",
+    "gold_evidence_string": "thermal dissipation buffer threshold is rated at exactly 1340 Joules per Kelvin by lead thermodynamicist Dr. Cynthia Cruz",
+    "split": "DEV",
+    "gold_chunks": []
+  },
+  {
+    "id": "Q51_table",
+    "category": "docx_table",
+    "question": "Under the Nyx Security protocol, who is the escalation lead and what is the SLA for a Rogue Key Generation incident?",
+    "is_answerable": true,
+    "required_facts": [
+      "Dr. Aris Thorne",
+      "15 minutes"
+    ],
+    "forbidden_facts": [],
+    "gold_document": "nyx_security_incident_response.docx",
+    "gold_evidence_string": "Rogue Key Generation",
+    "split": "DEV",
+    "gold_chunks": []
+  },
+  {
+    "id": "Q55_unans_topic",
+    "category": "unanswerable_topic",
+    "question": "What is the maximum underwater diving depth of the Titan-X unmanned vehicle?",
+    "is_answerable": false,
+    "required_facts": [],
+    "forbidden_facts": [],
+    "gold_document": null,
+    "gold_evidence_string": null,
+    "split": "DEV",
+    "gold_chunks": []
+  },
+  {
+    "id": "Q61_unans_out",
+    "category": "unanswerable_out_of_kb",
+    "question": "What was the total net profit of Starbucks in the third fiscal quarter of 2019?",
+    "is_answerable": false,
+    "required_facts": [],
+    "forbidden_facts": [],
+    "gold_document": null,
+    "gold_evidence_string": null,
+    "split": "DEV",
+    "gold_chunks": []
+  },
+  {
+    "id": "Q66_false_premise",
+    "category": "false_premise",
+    "question": "Why did VRCC Policy 2.4 lower the daily meal per diem to $35?",
+    "is_answerable": false,
+    "required_facts": [],
+    "forbidden_facts": [],
+    "gold_document": "vrcc_travel_policy_v2.pdf",
+    "gold_evidence_string": null,
+    "split": "DEV",
+    "gold_chunks": []
+  }
+]

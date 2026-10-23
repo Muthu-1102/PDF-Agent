@@ -1,0 +1,343 @@
+{
+  "vrcc_travel_policy_v1.pdf": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "VRCC Consortium Travel Policy Document Version 1.0 (Effective 2024). Section 1: Per Diem and Meals. Employees traveling on official VRCC business are entitled to a maximum daily meal per diem of $65 per day. Any meal expenditure exceeding $65 per day requires pre-authorization by the regional comptroller. Section 2: Lodging Allowances. The standard hotel nightly rate ceiling is fixed at $180 per night for domestic travel and $220 for international travel. Room service and minibar charges are strictly non-reimbursable under Policy 1.0. Section 3: Discretionary Spending. The discretionary project spending cap without executive review is $2,500 per trip. All receipts must be submitted to expense-audit@vaelen.internal within 14 calendar days."
+    }
+  ],
+  "vrcc_travel_policy_v2.pdf": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "VRCC Consortium Travel Policy Document Version 2.4 (Effective January 2026). Notice: This policy explicitly supersedes Version 1.0 in its entirety. Section 1: Per Diem and Subsistence. Under Policy Version 2.4, the updated daily meal per diem allowance is raised to exactly $92 per day. Breakfast is allocated $22, lunch $28, and dinner $42. Alcohol remains non-reimbursable. Section 2: Lodging Ceilings. The updated standard hotel ceiling is increased to $245 per night for all standard domestic tier-1 cities. For Tier-2 cities, the cap is $195 per night."
+    },
+    {
+      "chunk_index": 1,
+      "page_number": 2,
+      "text": "Section 3: Executive Approval Thresholds. Discretionary travel spending authority is expanded: project directors can approve expenses up to $4,000 per trip. Expenses exceeding $4,000 require written clearance from Chief Financial Officer Marcus Vance. Section 4: Mileage and Electric Fleet. Employees driving company electric vehicles receive a charging stipend of $0.34 per mile. Car rental upgrades to premium tier require Medical Disability Form MED-7."
+    }
+  ],
+  "aethelgard_titan_drone_specs.pdf": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "Aethelgard Dynamics - Titan-X Heavy Autonomous Unmanned Aerial Vehicle Specifications. 1. Propulsion and Battery Core: The Titan-X is powered by an advanced Lithium-Sulfur solid-core battery pack with an energy density of 420 Wh/kg. The battery system operates at a nominal bus voltage of 74.0 Volts and delivers 85 Amp-hours. Rotor architecture utilizes an octocopter coaxial-tilt layout with carbon-fiber reinforced blades."
+    },
+    {
+      "chunk_index": 1,
+      "page_number": 2,
+      "text": "2. Payload Capacity and Aerodynamics: The maximum certified payload capacity of the Titan-X is exactly 18.4 kilograms. Total maximum takeoff weight (MTOW) is 46.8 kilograms. Under standard sea-level atmospheric conditions (ISA), the maximum continuous flight endurance is 142 minutes with a 5 kg sensor payload."
+    },
+    {
+      "chunk_index": 2,
+      "page_number": 3,
+      "text": "3. Avionics and Communication Protocol: Primary telemetry is maintained via the proprietary Kestrel-Link 900 MHz redundant datalink with AES-256-GCM encryption. Operational ceiling is restricted to 4,500 meters above ground level. In the event of lost telemetry exceeding 45 seconds, the emergency return-to-base sequence RTB-ALPHA is automatically engaged."
+    }
+  ],
+  "zephyros_avionics_handbook.pdf": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 1. Subsection 1.1: Technical Diagnostics for Module ZX-1017. The primary telemetry carrier frequency for subsystem 1 is calibrated to 120.45 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 11.5 liters per minute. The safety interlock threshold for voltage regulator VREG-1 is set at 24.1 V. Subsection 1.2: Standard Operating Procedure. Inspect pressure seal GASKET-1 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1017-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 1,
+      "page_number": 2,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 2. Subsection 2.1: Technical Diagnostics for Module ZX-1034. The primary telemetry carrier frequency for subsystem 2 is calibrated to 120.90 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 13.0 liters per minute. The safety interlock threshold for voltage regulator VREG-2 is set at 24.2 V. Subsection 2.2: Standard Operating Procedure. Inspect pressure seal GASKET-2 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1034-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 2,
+      "page_number": 3,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 3. Subsection 3.1: Technical Diagnostics for Module ZX-1051. The primary telemetry carrier frequency for subsystem 3 is calibrated to 121.35 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 14.5 liters per minute. The safety interlock threshold for voltage regulator VREG-3 is set at 24.3 V. Subsection 3.2: Standard Operating Procedure. Inspect pressure seal GASKET-3 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1051-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 3,
+      "page_number": 4,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 4. Subsection 4.1: Technical Diagnostics for Module ZX-1068. The primary telemetry carrier frequency for subsystem 4 is calibrated to 121.80 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 16.0 liters per minute. The safety interlock threshold for voltage regulator VREG-4 is set at 24.4 V. Subsection 4.2: Standard Operating Procedure. Inspect pressure seal GASKET-4 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1068-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 4,
+      "page_number": 5,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 5. Subsection 5.1: Technical Diagnostics for Module ZX-1085. The primary telemetry carrier frequency for subsystem 5 is calibrated to 122.25 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 17.5 liters per minute. The safety interlock threshold for voltage regulator VREG-5 is set at 24.5 V. Subsection 5.2: Standard Operating Procedure. Inspect pressure seal GASKET-5 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1085-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 5,
+      "page_number": 6,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 6. Subsection 6.1: Technical Diagnostics for Module ZX-1102. The primary telemetry carrier frequency for subsystem 6 is calibrated to 122.70 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 19.0 liters per minute. The safety interlock threshold for voltage regulator VREG-6 is set at 24.6 V. Subsection 6.2: Standard Operating Procedure. Inspect pressure seal GASKET-6 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1102-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 6,
+      "page_number": 7,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 7. Subsection 7.1: Technical Diagnostics for Module ZX-1119. The primary telemetry carrier frequency for subsystem 7 is calibrated to 123.15 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 20.5 liters per minute. The safety interlock threshold for voltage regulator VREG-7 is set at 24.7 V. Subsection 7.2: Standard Operating Procedure. Inspect pressure seal GASKET-7 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1119-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 7,
+      "page_number": 8,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 8. Subsection 8.1: Technical Diagnostics for Module ZX-1136. The primary telemetry carrier frequency for subsystem 8 is calibrated to 123.60 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 22.0 liters per minute. The safety interlock threshold for voltage regulator VREG-8 is set at 24.8 V. Subsection 8.2: Standard Operating Procedure. Inspect pressure seal GASKET-8 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1136-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 8,
+      "page_number": 9,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 9. Subsection 9.1: Technical Diagnostics for Module ZX-1153. The primary telemetry carrier frequency for subsystem 9 is calibrated to 124.05 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 23.5 liters per minute. The safety interlock threshold for voltage regulator VREG-9 is set at 24.9 V. Subsection 9.2: Standard Operating Procedure. Inspect pressure seal GASKET-9 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1153-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 9,
+      "page_number": 10,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 10. Subsection 10.1: Technical Diagnostics for Module ZX-1170. The primary telemetry carrier frequency for subsystem 10 is calibrated to 124.50 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 25.0 liters per minute. The safety interlock threshold for voltage regulator VREG-10 is set at 25.0 V. Subsection 10.2: Standard Operating Procedure. Inspect pressure seal GASKET-10 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1170-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 10,
+      "page_number": 11,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 11. Subsection 11.1: Technical Diagnostics for Module ZX-1187. The primary telemetry carrier frequency for subsystem 11 is calibrated to 124.95 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 26.5 liters per minute. The safety interlock threshold for voltage regulator VREG-11 is set at 25.1 V. Subsection 11.2: Standard Operating Procedure. Inspect pressure seal GASKET-11 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1187-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 11,
+      "page_number": 12,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 12. Subsection 12.1: Technical Diagnostics for Module ZX-1204. The primary telemetry carrier frequency for subsystem 12 is calibrated to 125.40 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 28.0 liters per minute. The safety interlock threshold for voltage regulator VREG-12 is set at 25.2 V. Subsection 12.2: Standard Operating Procedure. Inspect pressure seal GASKET-12 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1204-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 12,
+      "page_number": 13,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 13. Subsection 13.1: Technical Diagnostics for Module ZX-1221. The primary telemetry carrier frequency for subsystem 13 is calibrated to 125.85 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 29.5 liters per minute. The safety interlock threshold for voltage regulator VREG-13 is set at 25.3 V. Subsection 13.2: Standard Operating Procedure. Inspect pressure seal GASKET-13 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1221-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 13,
+      "page_number": 14,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 14. Subsection 14.1: Technical Diagnostics for Module ZX-1238. The primary telemetry carrier frequency for subsystem 14 is calibrated to 126.30 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 31.0 liters per minute. The safety interlock threshold for voltage regulator VREG-14 is set at 25.4 V. Subsection 14.2: Standard Operating Procedure. Inspect pressure seal GASKET-14 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1238-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 14,
+      "page_number": 15,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 15. Subsection 15.1: Technical Diagnostics for Module ZX-1255. The primary telemetry carrier frequency for subsystem 15 is calibrated to 126.75 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 32.5 liters per minute. The safety interlock threshold for voltage regulator VREG-15 is set at 25.5 V. Subsection 15.2: Standard Operating Procedure. Inspect pressure seal GASKET-15 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1255-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 15,
+      "page_number": 16,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 16. Subsection 16.1: Technical Diagnostics for Module ZX-1272. The primary telemetry carrier frequency for subsystem 16 is calibrated to 127.20 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 34.0 liters per minute. The safety interlock threshold for voltage regulator VREG-16 is set at 25.6 V. Subsection 16.2: Standard Operating Procedure. Inspect pressure seal GASKET-16 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1272-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 16,
+      "page_number": 17,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 17. Subsection 17.1: Technical Diagnostics for Module ZX-1289. The primary telemetry carrier frequency for subsystem 17 is calibrated to 127.65 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 35.5 liters per minute. The safety interlock threshold for voltage regulator VREG-17 is set at 25.7 V. Subsection 17.2: Standard Operating Procedure. Inspect pressure seal GASKET-17 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1289-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 17,
+      "page_number": 18,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 18. Subsection 18.1: Technical Diagnostics for Module ZX-1306. The primary telemetry carrier frequency for subsystem 18 is calibrated to 128.10 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 37.0 liters per minute. The safety interlock threshold for voltage regulator VREG-18 is set at 25.8 V. Subsection 18.2: Standard Operating Procedure. Inspect pressure seal GASKET-18 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1306-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 18,
+      "page_number": 19,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 19. Subsection 19.1: Technical Diagnostics for Module ZX-1323. The primary telemetry carrier frequency for subsystem 19 is calibrated to 128.55 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 38.5 liters per minute. The safety interlock threshold for voltage regulator VREG-19 is set at 25.9 V. Subsection 19.2: Standard Operating Procedure. Inspect pressure seal GASKET-19 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1323-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 19,
+      "page_number": 20,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 20. Subsection 20.1: Technical Diagnostics for Module ZX-1340. The primary telemetry carrier frequency for subsystem 20 is calibrated to 129.00 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 40.0 liters per minute. The safety interlock threshold for voltage regulator VREG-20 is set at 26.0 V. Subsection 20.2: Standard Operating Procedure. Inspect pressure seal GASKET-20 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1340-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 20,
+      "page_number": 21,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 21. Subsection 21.1: Technical Diagnostics for Module ZX-1357. The primary telemetry carrier frequency for subsystem 21 is calibrated to 129.45 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 41.5 liters per minute. The safety interlock threshold for voltage regulator VREG-21 is set at 26.1 V. Subsection 21.2: Standard Operating Procedure. Inspect pressure seal GASKET-21 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1357-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 21,
+      "page_number": 22,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 22. Subsection 22.1: Technical Diagnostics for Module ZX-1374. The primary telemetry carrier frequency for subsystem 22 is calibrated to 129.90 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 43.0 liters per minute. The safety interlock threshold for voltage regulator VREG-22 is set at 26.2 V. Subsection 22.2: Standard Operating Procedure. Inspect pressure seal GASKET-22 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1374-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 22,
+      "page_number": 23,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 23. Subsection 23.1: Technical Diagnostics for Module ZX-1391. The primary telemetry carrier frequency for subsystem 23 is calibrated to 130.35 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 44.5 liters per minute. The safety interlock threshold for voltage regulator VREG-23 is set at 26.3 V. Subsection 23.2: Standard Operating Procedure. Inspect pressure seal GASKET-23 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1391-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 23,
+      "page_number": 24,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 24. Subsection 24.1: Technical Diagnostics for Module ZX-1408. The primary telemetry carrier frequency for subsystem 24 is calibrated to 130.80 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 46.0 liters per minute. The safety interlock threshold for voltage regulator VREG-24 is set at 26.4 V. Subsection 24.2: Standard Operating Procedure. Inspect pressure seal GASKET-24 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1408-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 24,
+      "page_number": 25,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 25. Subsection 25.1: Technical Diagnostics for Module ZX-1425. The primary telemetry carrier frequency for subsystem 25 is calibrated to 131.25 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 47.5 liters per minute. The safety interlock threshold for voltage regulator VREG-25 is set at 26.5 V. Subsection 25.2: Standard Operating Procedure. Inspect pressure seal GASKET-25 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1425-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 25,
+      "page_number": 26,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 26. Subsection 26.1: Technical Diagnostics for Module ZX-1442. The primary telemetry carrier frequency for subsystem 26 is calibrated to 131.70 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 49.0 liters per minute. The safety interlock threshold for voltage regulator VREG-26 is set at 26.6 V. Subsection 26.2: Standard Operating Procedure. Inspect pressure seal GASKET-26 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1442-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 26,
+      "page_number": 27,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 27. Subsection 27.1: Technical Diagnostics for Module ZX-1459. The primary telemetry carrier frequency for subsystem 27 is calibrated to 132.15 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 50.5 liters per minute. The safety interlock threshold for voltage regulator VREG-27 is set at 26.7 V. Subsection 27.2: Standard Operating Procedure. Inspect pressure seal GASKET-27 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1459-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 27,
+      "page_number": 28,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 28. Subsection 28.1: Technical Diagnostics for Module ZX-1476. The primary telemetry carrier frequency for subsystem 28 is calibrated to 132.60 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 52.0 liters per minute. The safety interlock threshold for voltage regulator VREG-28 is set at 26.8 V. Subsection 28.2: Standard Operating Procedure. Inspect pressure seal GASKET-28 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1476-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 28,
+      "page_number": 29,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 29. Subsection 29.1: Technical Diagnostics for Module ZX-1493. The primary telemetry carrier frequency for subsystem 29 is calibrated to 133.05 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 53.5 liters per minute. The safety interlock threshold for voltage regulator VREG-29 is set at 26.9 V. Subsection 29.2: Standard Operating Procedure. Inspect pressure seal GASKET-29 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1493-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 29,
+      "page_number": 30,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 30. Subsection 30.1: Technical Diagnostics for Module ZX-1510. The primary telemetry carrier frequency for subsystem 30 is calibrated to 133.50 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 55.0 liters per minute. The safety interlock threshold for voltage regulator VREG-30 is set at 27.0 V. Subsection 30.2: Standard Operating Procedure. Inspect pressure seal GASKET-30 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1510-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 30,
+      "page_number": 31,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 31. Subsection 31.1: Technical Diagnostics for Module ZX-1527. The primary telemetry carrier frequency for subsystem 31 is calibrated to 133.95 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 56.5 liters per minute. The safety interlock threshold for voltage regulator VREG-31 is set at 27.1 V. Subsection 31.2: Standard Operating Procedure. Inspect pressure seal GASKET-31 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1527-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 31,
+      "page_number": 32,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 32. Subsection 32.1: Technical Diagnostics for Module ZX-1544. The primary telemetry carrier frequency for subsystem 32 is calibrated to 134.40 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 58.0 liters per minute. The safety interlock threshold for voltage regulator VREG-32 is set at 27.2 V. Subsection 32.2: Standard Operating Procedure. Inspect pressure seal GASKET-32 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1544-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 32,
+      "page_number": 33,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 33. Subsection 33.1: Technical Diagnostics for Module ZX-1561. The primary telemetry carrier frequency for subsystem 33 is calibrated to 134.85 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 59.5 liters per minute. The safety interlock threshold for voltage regulator VREG-33 is set at 27.3 V. Subsection 33.2: Standard Operating Procedure. Inspect pressure seal GASKET-33 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1561-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 33,
+      "page_number": 34,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 34. Subsection 34.1: Technical Diagnostics for Module ZX-1578. The primary telemetry carrier frequency for subsystem 34 is calibrated to 135.30 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 61.0 liters per minute. The safety interlock threshold for voltage regulator VREG-34 is set at 27.4 V. Subsection 34.2: Standard Operating Procedure. Inspect pressure seal GASKET-34 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1578-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 34,
+      "page_number": 35,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 35. Subsection 35.1: Technical Diagnostics for Module ZX-1595. The primary telemetry carrier frequency for subsystem 35 is calibrated to 135.75 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 62.5 liters per minute. The safety interlock threshold for voltage regulator VREG-35 is set at 27.5 V. Subsection 35.2: Standard Operating Procedure. Inspect pressure seal GASKET-35 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1595-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 35,
+      "page_number": 36,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 36. Subsection 36.1: Technical Diagnostics for Module ZX-1612. The primary telemetry carrier frequency for subsystem 36 is calibrated to 136.20 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 64.0 liters per minute. The safety interlock threshold for voltage regulator VREG-36 is set at 27.6 V. Subsection 36.2: Standard Operating Procedure. Inspect pressure seal GASKET-36 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1612-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 36,
+      "page_number": 37,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 37. Subsection 37.1: Technical Diagnostics for Module ZX-1629. The primary telemetry carrier frequency for subsystem 37 is calibrated to 136.65 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 65.5 liters per minute. The safety interlock threshold for voltage regulator VREG-37 is set at 27.7 V. Subsection 37.2: Standard Operating Procedure. Inspect pressure seal GASKET-37 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1629-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 37,
+      "page_number": 38,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 38. Subsection 38.1: Technical Diagnostics for Module ZX-1646. The primary telemetry carrier frequency for subsystem 38 is calibrated to 137.10 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 67.0 liters per minute. The safety interlock threshold for voltage regulator VREG-38 is set at 27.8 V. Subsection 38.2: Standard Operating Procedure. Inspect pressure seal GASKET-38 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1646-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 38,
+      "page_number": 39,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 39. Subsection 39.1: Technical Diagnostics for Module ZX-1663. The primary telemetry carrier frequency for subsystem 39 is calibrated to 137.55 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 68.5 liters per minute. The safety interlock threshold for voltage regulator VREG-39 is set at 27.9 V. Subsection 39.2: Standard Operating Procedure. Inspect pressure seal GASKET-39 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1663-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 39,
+      "page_number": 40,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 40. Subsection 40.1: Technical Diagnostics for Module ZX-1680. The primary telemetry carrier frequency for subsystem 40 is calibrated to 138.00 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 70.0 liters per minute. The safety interlock threshold for voltage regulator VREG-40 is set at 28.0 V. Subsection 40.2: Standard Operating Procedure. Inspect pressure seal GASKET-40 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1680-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 40,
+      "page_number": 41,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 41. Subsection 41.1: Technical Diagnostics for Module ZX-1697. The primary telemetry carrier frequency for subsystem 41 is calibrated to 138.45 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 71.5 liters per minute. The safety interlock threshold for voltage regulator VREG-41 is set at 28.1 V. Subsection 41.2: Standard Operating Procedure. Inspect pressure seal GASKET-41 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1697-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 41,
+      "page_number": 42,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 42. Subsection 42.1: Technical Diagnostics for Module ZX-1714. The primary telemetry carrier frequency for subsystem 42 is calibrated to 138.90 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 73.0 liters per minute. The safety interlock threshold for voltage regulator VREG-42 is set at 28.2 V. Subsection 42.2: Standard Operating Procedure. Inspect pressure seal GASKET-42 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1714-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 42,
+      "page_number": 43,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 43. Subsection 43.1: Technical Diagnostics for Module ZX-1731. The primary telemetry carrier frequency for subsystem 43 is calibrated to 139.35 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 74.5 liters per minute. The safety interlock threshold for voltage regulator VREG-43 is set at 28.3 V. Subsection 43.2: Standard Operating Procedure. Inspect pressure seal GASKET-43 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1731-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 43,
+      "page_number": 44,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 44. Subsection 44.1: Technical Diagnostics for Module ZX-1748. The primary telemetry carrier frequency for subsystem 44 is calibrated to 139.80 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 76.0 liters per minute. The safety interlock threshold for voltage regulator VREG-44 is set at 28.4 V. Subsection 44.2: Standard Operating Procedure. Inspect pressure seal GASKET-44 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1748-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 44,
+      "page_number": 45,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 45. Subsection 45.1: Technical Diagnostics for Module ZX-1765. The primary telemetry carrier frequency for subsystem 45 is calibrated to 140.25 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 77.5 liters per minute. The safety interlock threshold for voltage regulator VREG-45 is set at 28.5 V. Subsection 45.2: Standard Operating Procedure. Inspect pressure seal GASKET-45 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1765-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 45,
+      "page_number": 46,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 46. Subsection 46.1: Technical Diagnostics for Module ZX-1782. The primary telemetry carrier frequency for subsystem 46 is calibrated to 140.70 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 79.0 liters per minute. The safety interlock threshold for voltage regulator VREG-46 is set at 28.6 V. Subsection 46.2: Standard Operating Procedure. Inspect pressure seal GASKET-46 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1782-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 46,
+      "page_number": 47,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 47. Subsection 47.1: Technical Diagnostics for Module ZX-1799. The primary telemetry carrier frequency for subsystem 47 is calibrated to 141.15 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 80.5 liters per minute. The safety interlock threshold for voltage regulator VREG-47 is set at 28.7 V. Subsection 47.2: Standard Operating Procedure. Inspect pressure seal GASKET-47 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1799-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 47,
+      "page_number": 48,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 48. Subsection 48.1: Technical Diagnostics for Module ZX-1816. The primary telemetry carrier frequency for subsystem 48 is calibrated to 141.60 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 82.0 liters per minute. The safety interlock threshold for voltage regulator VREG-48 is set at 28.8 V. Subsection 48.2: Standard Operating Procedure. Inspect pressure seal GASKET-48 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1816-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 48,
+      "page_number": 49,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 49. Subsection 49.1: Technical Diagnostics for Module ZX-1833. The primary telemetry carrier frequency for subsystem 49 is calibrated to 142.05 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 83.5 liters per minute. The safety interlock threshold for voltage regulator VREG-49 is set at 28.9 V. Subsection 49.2: Standard Operating Procedure. Inspect pressure seal GASKET-49 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1833-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 49,
+      "page_number": 50,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 50. Subsection 50.1: Technical Diagnostics for Module ZX-1850. The primary telemetry carrier frequency for subsystem 50 is calibrated to 142.50 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 85.0 liters per minute. The safety interlock threshold for voltage regulator VREG-50 is set at 29.0 V. Subsection 50.2: Standard Operating Procedure. Inspect pressure seal GASKET-50 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1850-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 50,
+      "page_number": 51,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 51. Subsection 51.1: Technical Diagnostics for Module ZX-1867. The primary telemetry carrier frequency for subsystem 51 is calibrated to 142.95 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 86.5 liters per minute. The safety interlock threshold for voltage regulator VREG-51 is set at 29.1 V. Subsection 51.2: Standard Operating Procedure. Inspect pressure seal GASKET-51 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1867-WARN and isolate the purge valve."
+    },
+    {
+      "chunk_index": 51,
+      "page_number": 52,
+      "text": "Zephyros Aerospace Avionics Systems Engineering Manual ? Chapter 52. Subsection 52.1: Technical Diagnostics for Module ZX-1884. The primary telemetry carrier frequency for subsystem 52 is calibrated to 143.40 MHz. During nominal sub-orbital transit, coolant flow rate must be maintained at 88.0 liters per minute. The safety interlock threshold for voltage regulator VREG-52 is set at 29.2 V. Subsection 52.2: Standard Operating Procedure. Inspect pressure seal GASKET-52 every 250 operating cycles. If differential pressure drops below 1.25 bar, issue alarm CODE-1884-WARN and isolate the purge valve."
+    }
+  ],
+  "nyx_security_incident_response.docx": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "Nyx Protocol Cyber Security Incident Classification and Response Playbook. This document establishes the mandatory response procedures for unauthorized access, cryptographic leakage, and infrastructure anomalies. General Rule: All incidents must be logged in SIEM within 5 minutes of automated alert generation. The following classification matrix defines incident severity and escalation responsibilities: Post-incident forensic images must be preserved in immutable S3 storage for a minimum of 7 years under regulatory mandate SEC-804."
+    }
+  ],
+  "project_chronos_research.txt": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "PROJECT CHRONOS ADVANCED PROPULSION AND QUANTUM DYNAMICS TECHNICAL BRIEFING. SECTION 1: SUB-HARMONIC CALIBRATION. START_POSITION_TEST_RECORD: The Chronos sub-harmonic frequency is calibrated to exactly 418.75 MHz by senior physicist Dr. Julian Vance. The thermal regulation subsystem undergoes rigorous cyclic environmental vibration testing. Standard laboratory conditions require ambient humidity below forty percent and nitrogen atmosphere. Telemetry data streams are digitized via sixteen bit analog converters with oversampling factors of eight. System stability requires continuous impedance matching across all high frequency transmission junctions. Calculated mean time between failures exceeds fifty thousand operating hours under nominal load profiles. Signal attenuation across the wave guide assembly is monitored via directional couplers calibrated annually. Electromagnetic shielding conforms to Class B military aerospace specifications with double braided copper mesh. Grounding straps must maintain resistance below two milliohms across all structural chassis joints. Cooling radiators utilize closed loop dielectric liquid fluorocarbon coolant circulating at variable velocities. Pressure relief diaphragms burst at precisely three point five bar to prevent internal casing rupture. The thermal regulation subsystem undergoes rigorous cyclic environmental vibration testing. Standard laboratory conditions require ambient humidity below forty percent and nitrogen atmosphere. Telemetry data streams are digitized via sixteen bit analog converters with oversampling factors of eight. System stability requires continuous impedance matching across all high frequency transmission junctions. Calculated mean time between failures exceeds fifty thousand operating hours under nominal load profiles. Signal attenuation across the wave guide assembly is monitored via directional couplers calibrated annually. Electromagnetic shielding conforms to Class B military aerospace specifications with double braided copper mesh. Grounding straps must maintain resistance below two milliohms across all structural chassis joints. Cooling radiators utilize closed loop dielectric liquid fluorocarbon coolant circulating at variable velocities. Pressure relief diaphragms burst at precisely three point five bar to prevent internal casing rupture. Operational telemetry is recorded across redundant solid state non volatile memory banks. All data packets are timestamped with microsecond precision derived from an onboard rubidium atomic clock standard. Field programmable gate arrays manage sensor fusion algorithms processing multi axis inertial measurement unit data. Diagnostic routines execute every fifty milliseconds checking memory parity and bus contention. Software watchdogs reset the primary flight controller if handshake pulses fail for two consecutive cycles. Thermal insulation consists of multilayer aluminized mylar blankets separated by dacron netting. Optical sensor windows feature sapphire glass with broadband anti reflective diamond like carbon coating. Power distribution units employ silicon carbide metal oxide semiconductor field effect transistors. Harmonic distortion in the alternating current bus is actively suppressed by active digital filtering networks. Telemetry downlink packets are framed using high level data link control protocols with cyclic redundancy checks. Operational telemetry is recorded across redundant solid state non volatile memory banks. All data packets are timestamped with microsecond precision derived from an onboard rubidium atomic clock standard. Field programmable gate arrays manage sensor fusion algorithms processing multi axis inertial measurement unit data. Diagnostic routines execute every fifty milliseconds checking memory parity and bus contention. Software watchdogs reset the primary flight controller if handshake pulses fail for"
+    },
+    {
+      "chunk_index": 1,
+      "page_number": 1,
+      "text": "are framed using high level data link control protocols with cyclic redundancy checks. Operational telemetry is recorded across redundant solid state non volatile memory banks. All data packets are timestamped with microsecond precision derived from an onboard rubidium atomic clock standard. Field programmable gate arrays manage sensor fusion algorithms processing multi axis inertial measurement unit data. Diagnostic routines execute every fifty milliseconds checking memory parity and bus contention. Software watchdogs reset the primary flight controller if handshake pulses fail for two consecutive cycles. SECTION 2: THERMAL DISSIPATION BUFFER. The thermal regulation subsystem undergoes rigorous cyclic environmental vibration testing. Standard laboratory conditions require ambient humidity below forty percent and nitrogen atmosphere. Telemetry data streams are digitized via sixteen bit analog converters with oversampling factors of eight. System stability requires continuous impedance matching across all high frequency transmission junctions. Calculated mean time between failures exceeds fifty thousand operating hours under nominal load profiles. Signal attenuation across the wave guide assembly is monitored via directional couplers calibrated annually. Electromagnetic shielding conforms to Class B military aerospace specifications with double braided copper mesh. Grounding straps must maintain resistance below two milliohms across all structural chassis joints. Cooling radiators utilize closed loop dielectric liquid fluorocarbon coolant circulating at variable velocities. Pressure relief diaphragms burst at precisely three point five bar to prevent internal casing rupture. The thermal regulation subsystem undergoes rigorous cyclic environmental vibration testing. Standard laboratory conditions require ambient humidity below forty percent and nitrogen atmosphere. Telemetry data streams are digitized via sixteen bit analog converters with oversampling factors of eight. System stability requires continuous impedance matching across all high frequency transmission junctions. Calculated mean time between failures exceeds fifty thousand operating hours under nominal load profiles. Signal attenuation across the wave guide assembly is monitored via directional couplers calibrated annually. Electromagnetic shielding conforms to Class B military aerospace specifications with double braided copper mesh. Grounding straps must maintain resistance below two milliohms across all structural chassis joints. Cooling radiators utilize closed loop dielectric liquid fluorocarbon coolant circulating at variable velocities. Pressure relief diaphragms burst at precisely three point five bar to prevent internal casing rupture. Operational telemetry is recorded across redundant solid state non volatile memory banks. All data packets are timestamped with microsecond precision derived from an onboard rubidium atomic clock standard. Field programmable gate arrays manage sensor fusion algorithms processing multi axis inertial measurement unit data. Diagnostic routines execute every fifty milliseconds checking memory parity and bus contention. Software watchdogs reset the primary flight controller if handshake pulses fail for two consecutive cycles. Thermal insulation consists of multilayer aluminized mylar blankets separated by dacron netting. Optical sensor windows feature sapphire glass with broadband anti reflective diamond like carbon coating. Power distribution units employ silicon carbide metal oxide semiconductor field effect transistors. Harmonic distortion in the alternating current bus is actively suppressed by active digital filtering networks. Telemetry downlink packets are framed using high level data link control protocols with cyclic redundancy checks. Operational telemetry is recorded across redundant solid state non"
+    },
+    {
+      "chunk_index": 2,
+      "page_number": 1,
+      "text": "consecutive cycles. Thermal insulation consists of multilayer aluminized mylar blankets separated by dacron netting. Optical sensor windows feature sapphire glass with broadband anti reflective diamond like carbon coating. Power distribution units employ silicon carbide metal oxide semiconductor field effect transistors. Harmonic distortion in the alternating current bus is actively suppressed by active digital filtering networks. Telemetry downlink packets are framed using high level data link control protocols with cyclic redundancy checks. Operational telemetry is recorded across redundant solid state non volatile memory banks. All data packets are timestamped with microsecond precision derived from an onboard rubidium atomic clock standard. Field programmable gate arrays manage sensor fusion algorithms processing multi axis inertial measurement unit data. Diagnostic routines execute every fifty milliseconds checking memory parity and bus contention. Software watchdogs reset the primary flight controller if handshake pulses fail for two consecutive cycles. Thermal insulation consists of multilayer aluminized mylar blankets separated by dacron netting. Optical sensor windows feature sapphire SECTION 3: SUMMARY RECOMMENDATIONS. All tests conducted at the White Sands Proving Ground confirmed resonance stability within plus or minus 0.05 percent. Next quarterly review is scheduled for December 2026."
+    }
+  ],
+  "aurora_quantum_compiler.pdf": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "Aurora Quantum Compiler Architecture Whitepaper (Release 4.1). The Aurora Quantum Compiler targets the proprietary Q-Alpha 7 superconducting qubit lattice. The nominal decoherence window of the processing nodes is precisely 840 microseconds under cryogenic shielding. The primary cryostat dilution refrigerator maintains a continuous base operating temperature of 12.4 millikelvin."
+    },
+    {
+      "chunk_index": 1,
+      "page_number": 2,
+      "text": "Compilation and Optimization Passes: Aurora implements the Helios-9 gate synthesis algorithm, reducing two-qubit CNOT gate counts by 38.6 percent. Maximum supported physical qubit register size in the current deployment is 128 topological qubits. Compiler errors and syntax exceptions are logged to sys-quantum@vaelen.internal."
+    }
+  ],
+  "orion_fleet_logistics.docx": [
+    {
+      "chunk_index": 0,
+      "page_number": 1,
+      "text": "Orion Autonomous Fleet Logistics and Regional Distribution Report. Fleet distribution across regional distribution centers is organized as follows: Northport Logistics Hub: Operates a fleet of 45 autonomous electric transport vans and 12 heavy haulers. Southhaven Distribution Depot: Operates 32 autonomous electric transport vans and 8 heavy haulers. Eastridge Terminal: Operates 58 autonomous electric transport vans and 19 heavy haulers. Westbay Maritime Complex: Operates 74 autonomous electric transport vans and 26 heavy haulers. Total network capacity accommodates 4,200 metric tons of freight daily with average delivery turnaround of 4.2 hours."
+    }
+  ]
+}

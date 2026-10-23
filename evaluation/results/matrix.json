@@ -1,0 +1,242 @@
+{
+  "main_results": [
+    {
+      "Experiment": "E1 - Ingestion",
+      "Metric": "Chunk Truncation Rate (H1)",
+      "Definition": "Share of chunks exceeding embedding model max_seq_length (256 tokens)",
+      "n": "2 / 65 chunks",
+      "Result": "3.08% (max 689 tokens vs 256 limit)",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e1_ingestion_results.json"
+    },
+    {
+      "Experiment": "E1 - Ingestion",
+      "Metric": "PDF Parsing Throughput",
+      "Definition": "PyMuPDF extraction and chunking rate on 52-page manual",
+      "n": "52 pages",
+      "Result": "2295.6 pages/sec (peak mem 0.08 MB)",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e1_ingestion_results.json"
+    },
+    {
+      "Experiment": "E2 - Retrieval",
+      "Metric": "Recall@4",
+      "Definition": "Fraction of answerable queries where gold chunk in top-4",
+      "n": "45 queries",
+      "Result": "80.0% (95% CI: [66.2%, 89.1%])",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e2_retrieval_summary.json"
+    },
+    {
+      "Experiment": "E2 - Retrieval",
+      "Metric": "Recall@12",
+      "Definition": "Fraction of answerable queries where gold chunk in top-12",
+      "n": "45 queries",
+      "Result": "86.7% (95% CI: [73.8%, 93.7%])",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e2_retrieval_summary.json"
+    },
+    {
+      "Experiment": "E2 - Retrieval",
+      "Metric": "Position-Sensitivity Recall Gap (H1)",
+      "Definition": "Recall@4 for fact at chunk START (tokens 0-50) vs END (tokens >256)",
+      "n": "4 paired queries",
+      "Result": "Start: 100.0% vs End: 0.0% (Delta: -100.0%)",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e2_retrieval_summary.json"
+    },
+    {
+      "Experiment": "E3 - Evidence Filter",
+      "Metric": "LLM Sufficiency Rate (Answerable)",
+      "Definition": "Rate at which LLM judge flags retrieved chunks as sufficient for answerable queries",
+      "n": "58 queries",
+      "Result": "11.1%",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e3_summary.json"
+    },
+    {
+      "Experiment": "E3 - Evidence Filter",
+      "Metric": "Single-Chunk False Insufficiency (H6)",
+      "Definition": "Single-chunk answerable queries rejected due to MIN_TRUSTED_CHUNKS=2",
+      "n": "58 queries",
+      "Result": "29 occurrences",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e3_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "Answer Correctness (Full System)",
+      "Definition": "Answerable questions with all required facts and zero forbidden facts",
+      "n": "45 questions",
+      "Result": "77.8% (95% CI: [63.7%, 87.5%])",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "Unsupported-Answer Rate (Full System)",
+      "Definition": "Unanswerable questions receiving a substantive hallucinated answer",
+      "n": "13 questions",
+      "Result": "53.8% (95% CI: [29.1%, 76.8%])",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "Over-Abstention Rate (Full System)",
+      "Definition": "Answerable questions incorrectly rejected/abstained",
+      "n": "45 questions",
+      "Result": "8.9% (95% CI: [3.5%, 20.7%])",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "Citation Validity",
+      "Definition": "Inline [doc, chunk N] citations matching trusted_chunks",
+      "n": "58 queries",
+      "Result": "86.2%",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "H5 Discrepancy Occurrences",
+      "Definition": "Queries where evidence_status == 'insufficient' yet non-canned answer returned with confidence > 0",
+      "n": "58 queries",
+      "Result": "28 queries",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E4 - End-to-End",
+      "Metric": "Confidence AUROC (H7)",
+      "Definition": "Discrimination power of mean cosine similarity predicting correctness",
+      "n": "45 questions",
+      "Result": "0.7657 (non-calibrated)",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e4_ablation_summary.json"
+    },
+    {
+      "Experiment": "E7 - Concurrency",
+      "Metric": "Event-Loop Blocking Duration (H8)",
+      "Definition": "HTTP GET /health latency during concurrent /query execution",
+      "n": "1 concurrent query",
+      "Result": "0.0265s (status 200)",
+      "Status": "MEASURED",
+      "Evidence": "evaluation/results/baseline/e7_concurrency_latency.json"
+    }
+  ],
+  "comparison_matrix": [
+    {
+      "Configuration": "Arm B Standard RAG",
+      "Answer Correctness": "73.3%",
+      "Unsupported Answer Rate": "15.4%",
+      "Over-Abstention Rate": "20.0%",
+      "Citation Validity": "100.0%",
+      "LLM Calls / Query": "1.0",
+      "p50 Latency (s)": "3.809s"
+    },
+    {
+      "Configuration": "Arm D Similarity Only",
+      "Answer Correctness": "66.7%",
+      "Unsupported Answer Rate": "15.4%",
+      "Over-Abstention Rate": "20.0%",
+      "Citation Validity": "100.0%",
+      "LLM Calls / Query": "0.88",
+      "p50 Latency (s)": "2.958s"
+    },
+    {
+      "Configuration": "Arm C No Retry",
+      "Answer Correctness": "75.6%",
+      "Unsupported Answer Rate": "23.1%",
+      "Over-Abstention Rate": "20.0%",
+      "Citation Validity": "100.0%",
+      "LLM Calls / Query": "1.67",
+      "p50 Latency (s)": "6.777s"
+    },
+    {
+      "Configuration": "Arm A Full System",
+      "Answer Correctness": "77.8%",
+      "Unsupported Answer Rate": "53.8%",
+      "Over-Abstention Rate": "8.9%",
+      "Citation Validity": "86.2%",
+      "LLM Calls / Query": "3.98",
+      "p50 Latency (s)": "47.765s"
+    }
+  ],
+  "hypotheses_matrix": [
+    {
+      "Hypothesis": "H1: Embedding Truncation (256 tokens vs 500 words)",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json, e2_retrieval_summary.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H2: Evidence Judge 600-char Prompt Truncation",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e3_summary.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H3: Silent Fallback to Cosine Similarity",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H4: Redundant Top-K at Retry 3 (k=12 identical to retry 2)",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H5: Abstention Keyed on Empty Chunks, not evidence_status",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e4_ablation_summary.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H6: MIN_TRUSTED_CHUNKS=2 False Insufficiency on 1-chunk answer",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e3_summary.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H7: Confidence Score is Non-Calibrated Cosine Mean",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e4_ablation_summary.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H8: Report Agent Error Propagates to 500; Event Loop Blocked",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e5_e6_results.json, e7_concurrency_latency.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H9: Re-upload Duplicates Chunks Without Deduplication",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H10: DOCX Tables Ignored; Non-UTF8 TXT Raises 500",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H11: conversation_history Field in State is Ignored",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
+      "Fixed in improvements?": "Pending Phase 6"
+    },
+    {
+      "Hypothesis": "H12: Pinned Dependencies Installability on Modern Python",
+      "Status": "CONFIRMED",
+      "Evidence File": "evaluation/manifest.json",
+      "Fixed in improvements?": "Verified on Python 3.11.9"
+    }
+  ]
+}

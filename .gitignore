@@ -7,6 +7,8 @@ venv/
 
 # Vector store data (regenerated from uploads, don't commit)
 backend/data/chroma_store/
+data/
+evaluation/.chroma_eval_tmp/
 
 # Node / frontend
 node_modules/
