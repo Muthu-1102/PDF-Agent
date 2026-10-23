@@ -31,7 +31,8 @@ from app.ingestion.loader import load_document, load_pdf, load_docx, load_txt
 from app.ingestion.chunker import chunk_document, chunk_page_text
 
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "..", "dataset", "documents")
-OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", "baseline")
+OUT_SUBDIR = os.getenv("EVAL_OUTPUT_SUBDIR", "baseline")
+OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", OUT_SUBDIR)
 os.makedirs(OUT_DIR, exist_ok=True)
 
 

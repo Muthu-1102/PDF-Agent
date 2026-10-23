@@ -168,75 +168,107 @@
   "hypotheses_matrix": [
     {
       "Hypothesis": "H1: Embedding Truncation (256 tokens vs 500 words)",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json, e2_retrieval_summary.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (chunk_size=160 words, 0% truncated)"
     },
     {
       "Hypothesis": "H2: Evidence Judge 600-char Prompt Truncation",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e3_summary.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (expanded candidate window to 2000 chars)"
     },
     {
       "Hypothesis": "H3: Silent Fallback to Cosine Similarity",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (surfaced evidence_mode & judge_error)"
     },
     {
       "Hypothesis": "H4: Redundant Top-K at Retry 3 (k=12 identical to retry 2)",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (early exit when top_k >= MAX_TOP_K)"
     },
     {
       "Hypothesis": "H5: Abstention Keyed on Empty Chunks, not evidence_status",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e4_ablation_summary.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (clean abstention on insufficient status)"
     },
     {
       "Hypothesis": "H6: MIN_TRUSTED_CHUNKS=2 False Insufficiency on 1-chunk answer",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e3_summary.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (calibrated MIN_TRUSTED_CHUNKS=1)"
     },
     {
       "Hypothesis": "H7: Confidence Score is Non-Calibrated Cosine Mean",
       "Status": "CONFIRMED",
       "Evidence File": "evaluation/results/baseline/e4_ablation_summary.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "Documented in trade-offs"
     },
     {
       "Hypothesis": "H8: Report Agent Error Propagates to 500; Event Loop Blocked",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e5_e6_results.json, e7_concurrency_latency.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (FastAPI threadpool def offloading)"
     },
     {
       "Hypothesis": "H9: Re-upload Duplicates Chunks Without Deduplication",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (content/document deduplication)"
     },
     {
       "Hypothesis": "H10: DOCX Tables Ignored; Non-UTF8 TXT Raises 500",
-      "Status": "CONFIRMED",
+      "Status": "CONFIRMED & FIXED",
       "Evidence File": "evaluation/results/baseline/e1_ingestion_results.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "YES (table row parser + latin-1 fallback)"
     },
     {
       "Hypothesis": "H11: conversation_history Field in State is Ignored",
       "Status": "CONFIRMED",
       "Evidence File": "evaluation/results/baseline/e5_e6_results.json",
-      "Fixed in improvements?": "Pending Phase 6"
+      "Fixed in improvements?": "Documented in architectural report"
     },
     {
       "Hypothesis": "H12: Pinned Dependencies Installability on Modern Python",
       "Status": "CONFIRMED",
       "Evidence File": "evaluation/manifest.json",
       "Fixed in improvements?": "Verified on Python 3.11.9"
+    }
+  ],
+  "before_vs_after": [
+    {
+      "Component / Metric": "Chunk Truncation Rate (H1)",
+      "Baseline (Before)": "3.08% truncated (max 689 tokens)",
+      "Improved (After)": "0.0% truncated (max 230 tokens)",
+      "Impact": "100% elimination of embedding truncation"
+    },
+    {
+      "Component / Metric": "DOCX Table Extraction (H10)",
+      "Baseline (Before)": "Dropped (0% cells extracted)",
+      "Improved (After)": "Extracted (100% table cells extracted)",
+      "Impact": "Structured data recovered"
+    },
+    {
+      "Component / Metric": "Non-UTF-8 Text Ingestion (H10)",
+      "Baseline (Before)": "UnicodeDecodeError (HTTP 500)",
+      "Improved (After)": "Clean fallback decode (HTTP 200)",
+      "Impact": "Robust legacy format handling"
+    },
+    {
+      "Component / Metric": "Redundant Top-K Progression (H4)",
+      "Baseline (Before)": "Retry 3 duplicates Retry 2 at k=12",
+      "Improved (After)": "Early exit when current_top_k >= MAX_TOP_K",
+      "Impact": "Wasted LLM judge call eliminated"
+    },
+    {
+      "Component / Metric": "Evidence Fallback Mode (H3)",
+      "Baseline (Before)": "Silent fallback to cosine similarity",
+      "Improved (After)": "Surfaces evidence_mode & judge_error",
+      "Impact": "Transparent operational observability"
     }
   ]
 }

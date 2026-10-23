@@ -25,7 +25,8 @@ from evaluation.harness.indexer import build_evaluation_index
 from evaluation.harness.metrics import compute_wilson_ci
 
 DATASET_DIR = os.path.join(os.path.dirname(__file__), "..", "dataset")
-OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", "baseline")
+OUT_SUBDIR = os.getenv("EVAL_OUTPUT_SUBDIR", "baseline")
+OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", OUT_SUBDIR)
 os.makedirs(OUT_DIR, exist_ok=True)
 
 

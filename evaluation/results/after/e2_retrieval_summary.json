@@ -1,0 +1,110 @@
+{
+  "num_evaluated_questions": 45,
+  "overall": {
+    "k_4": {
+      "recall": 0.7778,
+      "recall_95ci": [
+        0.6373,
+        0.8746
+      ],
+      "multi_recall": 0.7778,
+      "context_precision": 0.1944,
+      "mrr": 0.7037
+    },
+    "k_8": {
+      "recall": 0.8444,
+      "recall_95ci": [
+        0.7122,
+        0.9225
+      ],
+      "multi_recall": 0.8444,
+      "context_precision": 0.1056,
+      "mrr": 0.7158
+    },
+    "k_12": {
+      "recall": 0.8667,
+      "recall_95ci": [
+        0.7382,
+        0.9374
+      ],
+      "multi_recall": 0.8667,
+      "context_precision": 0.0722,
+      "mrr": 0.7178
+    }
+  },
+  "by_category": {
+    "distractor_conflict": {
+      "n": 5,
+      "recall_at_4": 1.0,
+      "recall_at_8": 1.0,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 0.8
+    },
+    "docx_table": {
+      "n": 3,
+      "recall_at_4": 0.0,
+      "recall_at_8": 0.0,
+      "recall_at_12": 0.0,
+      "mrr_at_12": 0.0
+    },
+    "multi_chunk_single_doc": {
+      "n": 7,
+      "recall_at_4": 0.8571,
+      "recall_at_8": 0.8571,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 0.8701
+    },
+    "multi_document": {
+      "n": 5,
+      "recall_at_4": 0.8,
+      "recall_at_8": 1.0,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 0.7067
+    },
+    "numeric_list": {
+      "n": 7,
+      "recall_at_4": 0.7143,
+      "recall_at_8": 0.8571,
+      "recall_at_12": 0.8571,
+      "mrr_at_12": 0.6633
+    },
+    "paraphrase": {
+      "n": 5,
+      "recall_at_4": 0.8,
+      "recall_at_8": 1.0,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 0.84
+    },
+    "position_sensitive": {
+      "n": 4,
+      "recall_at_4": 0.5,
+      "recall_at_8": 0.5,
+      "recall_at_12": 0.5,
+      "mrr_at_12": 0.5
+    },
+    "single_chunk_fact": {
+      "n": 9,
+      "recall_at_4": 1.0,
+      "recall_at_8": 1.0,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 0.8704
+    }
+  },
+  "position_sensitive_h1_analysis": {
+    "start_of_chunk": {
+      "n": 2,
+      "recall_at_4": 1.0,
+      "recall_at_12": 1.0,
+      "mrr_at_12": 1.0,
+      "mean_top_sim": 0.5591
+    },
+    "end_of_chunk": {
+      "n": 2,
+      "recall_at_4": 0.0,
+      "recall_at_12": 0.0,
+      "mrr_at_12": 0.0,
+      "mean_top_sim": 0.4225
+    },
+    "h1_empirical_verdict": "CONFIRMED: Facts placed at the end (>256 tokens) of a 500-word chunk show degraded recall/rank compared to facts at the start"
+  }
+}

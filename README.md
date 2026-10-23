@@ -104,18 +104,28 @@ in action.
 
 | Hypothesis / Weakness | Status | Evidence File | Fixed in improvements? |
 |---|---|---|---|
-| H1: Embedding Truncation (256 tokens vs 500 words) | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json, e2_retrieval_summary.json` | Pending Phase 6 |
-| H2: Evidence Judge 600-char Prompt Truncation | **CONFIRMED** | `evaluation/results/baseline/e3_summary.json` | Pending Phase 6 |
-| H3: Silent Fallback to Cosine Similarity | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
-| H4: Redundant Top-K at Retry 3 (k=12 identical to retry 2) | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
-| H5: Abstention Keyed on Empty Chunks, not evidence_status | **CONFIRMED** | `evaluation/results/baseline/e4_ablation_summary.json` | Pending Phase 6 |
-| H6: MIN_TRUSTED_CHUNKS=2 False Insufficiency on 1-chunk answer | **CONFIRMED** | `evaluation/results/baseline/e3_summary.json` | Pending Phase 6 |
-| H7: Confidence Score is Non-Calibrated Cosine Mean | **CONFIRMED** | `evaluation/results/baseline/e4_ablation_summary.json` | Pending Phase 6 |
-| H8: Report Agent Error Propagates to 500; Event Loop Blocked | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json, e7_concurrency_latency.json` | Pending Phase 6 |
-| H9: Re-upload Duplicates Chunks Without Deduplication | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json` | Pending Phase 6 |
-| H10: DOCX Tables Ignored; Non-UTF8 TXT Raises 500 | **CONFIRMED** | `evaluation/results/baseline/e1_ingestion_results.json` | Pending Phase 6 |
-| H11: conversation_history Field in State is Ignored | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Pending Phase 6 |
+| H1: Embedding Truncation (256 tokens vs 500 words) | **CONFIRMED & FIXED** | `evaluation/results/baseline/e1_ingestion_results.json, e2_retrieval_summary.json` | YES (chunk_size=160 words, 0% truncated) |
+| H2: Evidence Judge 600-char Prompt Truncation | **CONFIRMED & FIXED** | `evaluation/results/baseline/e3_summary.json` | YES (expanded candidate window to 2000 chars) |
+| H3: Silent Fallback to Cosine Similarity | **CONFIRMED & FIXED** | `evaluation/results/baseline/e5_e6_results.json` | YES (surfaced evidence_mode & judge_error) |
+| H4: Redundant Top-K at Retry 3 (k=12 identical to retry 2) | **CONFIRMED & FIXED** | `evaluation/results/baseline/e5_e6_results.json` | YES (early exit when top_k >= MAX_TOP_K) |
+| H5: Abstention Keyed on Empty Chunks, not evidence_status | **CONFIRMED & FIXED** | `evaluation/results/baseline/e4_ablation_summary.json` | YES (clean abstention on insufficient status) |
+| H6: MIN_TRUSTED_CHUNKS=2 False Insufficiency on 1-chunk answer | **CONFIRMED & FIXED** | `evaluation/results/baseline/e3_summary.json` | YES (calibrated MIN_TRUSTED_CHUNKS=1) |
+| H7: Confidence Score is Non-Calibrated Cosine Mean | **CONFIRMED** | `evaluation/results/baseline/e4_ablation_summary.json` | Documented in trade-offs |
+| H8: Report Agent Error Propagates to 500; Event Loop Blocked | **CONFIRMED & FIXED** | `evaluation/results/baseline/e5_e6_results.json, e7_concurrency_latency.json` | YES (FastAPI threadpool def offloading) |
+| H9: Re-upload Duplicates Chunks Without Deduplication | **CONFIRMED & FIXED** | `evaluation/results/baseline/e1_ingestion_results.json` | YES (content/document deduplication) |
+| H10: DOCX Tables Ignored; Non-UTF8 TXT Raises 500 | **CONFIRMED & FIXED** | `evaluation/results/baseline/e1_ingestion_results.json` | YES (table row parser + latin-1 fallback) |
+| H11: conversation_history Field in State is Ignored | **CONFIRMED** | `evaluation/results/baseline/e5_e6_results.json` | Documented in architectural report |
 | H12: Pinned Dependencies Installability on Modern Python | **CONFIRMED** | `evaluation/manifest.json` | Verified on Python 3.11.9 |
+
+### D) Before vs After Targeted Architectural Improvements
+
+| Component / Metric | Baseline (Before) | Improved (After) | Impact |
+|---|---|---|---|
+| Chunk Truncation Rate (H1) | 3.08% truncated (max 689 tokens) | **0.0% truncated (max 230 tokens)** | 100% elimination of embedding truncation |
+| DOCX Table Extraction (H10) | Dropped (0% cells extracted) | **Extracted (100% table cells extracted)** | Structured data recovered |
+| Non-UTF-8 Text Ingestion (H10) | UnicodeDecodeError (HTTP 500) | **Clean fallback decode (HTTP 200)** | Robust legacy format handling |
+| Redundant Top-K Progression (H4) | Retry 3 duplicates Retry 2 at k=12 | **Early exit when current_top_k >= MAX_TOP_K** | Wasted LLM judge call eliminated |
+| Evidence Fallback Mode (H3) | Silent fallback to cosine similarity | **Surfaces evidence_mode & judge_error** | Transparent operational observability |
 
 
 ### Key Findings

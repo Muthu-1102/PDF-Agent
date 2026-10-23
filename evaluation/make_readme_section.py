@@ -90,7 +90,7 @@ def update_readme():
 
     pattern = r"<!-- EVAL-MATRIX:START -->.*?<!-- EVAL-MATRIX:END -->"
     if re.search(pattern, readme_text, re.DOTALL):
-        updated_readme = re.sub(pattern, new_section, readme_text, flags=re.DOTALL)
+        updated_readme = re.sub(pattern, lambda _: new_section, readme_text, flags=re.DOTALL)
     else:
         # Append before any closing notes or at the end
         updated_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"

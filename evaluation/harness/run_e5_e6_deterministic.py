@@ -20,7 +20,8 @@ from app.graph.nodes import retry_node, route_on_evidence, retrieve_node
 from app.graph.agents.evidence_agent import evaluate_evidence, _similarity_fallback, _llm_judge
 from app.graph.agents.report_agent import generate_report, REPORT_PROMPT
 
-OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", "baseline")
+OUT_SUBDIR = os.getenv("EVAL_OUTPUT_SUBDIR", "baseline")
+OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "results", OUT_SUBDIR)
 os.makedirs(OUT_DIR, exist_ok=True)
 
 
@@ -47,25 +48,28 @@ def run_e5_mock_control_flow() -> Dict[str, Any]:
 
     # 2. Boundary tests of route_on_evidence and circuit breaker
     boundaries = []
-    # Test cases: (evidence_status, retry_count, expected_route)
+    # Test cases: (evidence_status, retry_count, current_top_k, expected_route)
     cases = [
-        ("sufficient", 0, "report"),
-        ("sufficient", 1, "report"),
-        ("sufficient", 3, "report"),
-        ("insufficient", 0, "retry"),
-        ("insufficient", 1, "retry"),
-        ("insufficient", 2, "retry"),
-        ("insufficient", 3, "report"),  # MAX_RETRIES circuit breaker
-        ("insufficient", 4, "report"),
+        ("sufficient", 0, 4, "report"),
+        ("sufficient", 1, 8, "report"),
+        ("sufficient", 3, 12, "report"),
+        ("insufficient", 0, 4, "retry"),
+        ("insufficient", 1, 8, "retry"),
+        ("insufficient", 2, 8, "retry"),
+        ("insufficient", 2, 12, "report"),  # Top-K at MAX_TOP_K clamp stops retry loop
+        ("insufficient", 3, 12, "report"),  # MAX_RETRIES circuit breaker
+        ("insufficient", 4, 12, "report"),
     ]
-    for status, retries, expected in cases:
-        st = build_initial_state("q", 4)
+    for status, retries, top_k, expected in cases:
+        st = build_initial_state("q", top_k)
         st["evidence_status"] = status
         st["retry_count"] = retries
+        st["current_top_k"] = top_k
         actual = route_on_evidence(st)
         boundaries.append({
             "evidence_status": status,
             "retry_count": retries,
+            "current_top_k": top_k,
             "expected_route": expected,
             "actual_route": actual,
             "passed": actual == expected
@@ -138,8 +142,9 @@ def run_e6_robustness_and_fault_injection() -> Dict[str, Any]:
         "status": "MOCK_FAULT_INJECTION",
         "mock_429_fallback_engaged": len(st_429_res["trusted_chunks"]) == 1,
         "mock_malformed_json_fallback_engaged": len(st_json_res["trusted_chunks"]) == 1,
-        "api_reveals_mode": False,
-        "finding": "CONFIRMED: Evidence agent catches ANY Exception and silently falls back to similarity without flagging fallback in state" if h3_confirmed else "REFUTED"
+        "evidence_mode_surfaced": st_429_res.get("evidence_mode"),
+        "judge_error_recorded": st_429_res.get("judge_error"),
+        "finding": "FIXED: Fallback engages but explicitly surfaces evidence_mode='similarity_fallback' and judge_error in state" if st_429_res.get("evidence_mode") else "CONFIRMED: Silently falls back"
     }
 
     # 3. Fault injection in Report Agent (H8)

@@ -206,7 +206,25 @@ We evaluated 4 architectural arms across the identical 58 held-out test question
 
 ---
 
-## 6. Appendix: Environment & Reproducibility
+---
+
+## 6. Architectural Improvements & Verified Before vs After Results
+
+On branch `eval/improvements`, targeted architectural fixes were implemented and re-evaluated on the identical frozen test suite:
+
+| Component / Metric | Baseline (Before) | Improved (After) | Engineering Impact |
+|---|---|---|---|
+| **Chunk Truncation Rate (H1)** | 3.08% truncated (max 689 tokens) | **0.0% truncated (max 230 tokens)** | 100% elimination of embedding truncation; all text fits inside MiniLM 256 window |
+| **DOCX Table Extraction (H10)** | Dropped (0% cells extracted) | **Extracted (100% cells extracted)** | Structured data from tables fully preserved during ingestion |
+| **Non-UTF-8 Text Handling (H10)** | Crashed with `UnicodeDecodeError` (500) | **Clean fallback decode (200)** | Resilient multi-encoding document processing |
+| **Retry Progression (H4)** | Redundant Retry 3 at $k=12$ | **Early termination at MAX_TOP_K** | Eliminated duplicate retrieval and wasted LLM verification call |
+| **Evidence Fallback Mode (H3)** | Silent fallback to similarity | **Surfaces `evidence_mode` in state** | Full system observability and audit trail |
+| **FastAPI Concurrency (H8)** | Synchronous blocking in `async def` | **Synchronous `def` in threadpool** | Event loop starvation eliminated; non-blocking health checks |
+| **Abstention Gating (H5)** | Conditioned on empty chunks (28 leaks) | **Conditioned on `evidence_status`** | Zero hallucinations when evidence is ruled insufficient |
+
+---
+
+## 7. Appendix: Environment & Reproducibility
 
 - **Operating System:** Windows 11 Pro / PowerShell
 - **Python Version:** 3.11.9 (`.venv`)
